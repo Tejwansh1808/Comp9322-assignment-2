@@ -1,6 +1,7 @@
 package au.edu.unsw.soacourse.ass2;
 import java.net.URI;
 
+import javax.jws.WebService;
 import javax.net.ssl.SSLEngineResult.Status;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -12,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 @Path("/hello")
+
 public class HelloWorld {
 
     @GET
@@ -26,7 +28,7 @@ public class HelloWorld {
     @Consumes("application/json")
     @Path("/jsonBean")
     public Response modifyJson(JsonBean input) {
-        input.setVal2(input.getVal1());
+    	//System.out.println(input.getVal1());
         return Response.ok().entity(input).build();
     }
     @POST	
