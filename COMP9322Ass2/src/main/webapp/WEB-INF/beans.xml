@@ -6,7 +6,14 @@
     <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer"/>
     <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer"/>
   
-    
+    <jaxrs:server id="Hello" address="/hello">
+        <jaxrs:serviceBeans>
+            <bean class="au.edu.unsw.soacourse.ass2.HelloWorld"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
       <jaxrs:server id="foundit" address="/">
         <jaxrs:serviceBeans>
             <bean class="au.edu.unsw.soacourse.ass2.FoundITServices"/>

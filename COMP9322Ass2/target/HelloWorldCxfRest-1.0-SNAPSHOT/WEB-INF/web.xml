@@ -18,8 +18,30 @@
                 </servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>Controller</display-name>
+    	<servlet-name>Controller</servlet-name>
+    	<servlet-class>controller.Controller</servlet-class>
+    </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>ServletController</display-name>
+    	<servlet-name>ServletController</servlet-name>
+    	<servlet-class>au.edu.unsw.soacourse.client.controller.ServletController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>Controller</servlet-name>
+    	<url-pattern>/Controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>ServletController</servlet-name>
+    	<url-pattern>/ServletController</url-pattern>
     </servlet-mapping>
 </web-app>

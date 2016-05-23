@@ -17,7 +17,7 @@ public class FoundITServices {
     @Consumes("application/json")
     @Path("/registration")
 	public Response registration ( RegistrationRequestDTO registrationRequestDTO){
-		
+		System.out.println(registrationRequestDTO.getName());
 		
 		
 		// do registration 
