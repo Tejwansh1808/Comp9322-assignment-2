@@ -24,5 +24,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/sqlite-jdbc-3.8.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/dsn.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/gimap.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/imap.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/mailapi.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/pop3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tejwansh Singh/cs9322-Prac/$9322_PRAC$/workspace/Comp9322-assignment-2/jar/smtp.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

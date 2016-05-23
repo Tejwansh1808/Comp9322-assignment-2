@@ -11,16 +11,17 @@ public class JDBC_Connection {
 
 	public Connection connect() {
 		try{
-		System.out.println("Connecting!!!!");
-		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:test.db");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Connection Cannot be Established !!!");
-		}
-		System.out.println("Connection Established!!");
-		return con;
+        	System.out.println("Starting Connection Attempt");
+            Class.forName("oracle.jdbc.OracleDriver");
+            con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/XE","SOA","soa");
+            System.out.println("Attempt Successfull!! Connection Established!!!!");
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Connection Cannot be Established !!!");
+            e.printStackTrace();
+        }
+            return con;
+        
 	}
 }
