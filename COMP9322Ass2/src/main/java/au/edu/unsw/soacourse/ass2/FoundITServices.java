@@ -121,7 +121,7 @@ public class FoundITServices {
 	@POST
 	@Produces("application/json")
     @Consumes("application/json")
-    @Path("/username")
+    @Path("/signup")
 	public Response addUsername(UserNameRegRequest request)
 	
 	{	
