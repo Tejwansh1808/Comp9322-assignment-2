@@ -126,7 +126,7 @@ public class FoundITServices {
 			String name=request.getName();
 			String email=request.getEmail();
 			String password=request.getPassword();
-			String userID=request.getUuid();
+			String userID=request.getUserID();
 			String sqlString="Insert INTO JOBSEEKER (USERID,EMAIL,PASSWORD,NAME) VALUES(?,?,?,?)";
 			PreparedStatement pd=con.prepareStatement(sqlString);
 			pd.setString(1, userID);

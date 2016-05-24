@@ -3,7 +3,7 @@ package au.edu.unsw.soacourse.ass2;
 import java.util.UUID;
 
 public class SignUpRegRequest {
-private String email,password,uuid,name;
+private String email,password,userID,name;
 
 public String getName() {
 	return name;
@@ -13,12 +13,12 @@ public void setName(String name) {
 	this.name = name;
 }
 
-public String getUuid() {
-	return uuid;
+public String getUserID() {
+	return userID;
 }
 
-public void setUuid(String uuid) {
-	this.uuid = uuid;
+public void setUserID(String userID) {
+	this.userID = userID;
 }
 
 public String getEmail() {
