@@ -30,13 +30,11 @@ public class FoundITServices {
     @Path("/registration/{flag}")
 	public Response registration ( RegistrationRequestDTO request,@PathParam("flag")String flag){
 		
-		String userID,name,email,dob,currentPosition,currentCompany,highestEducation,pastExperience,professionalSkills,resume,coverLetter;
+		String userID,dob,currentPosition,currentCompany,highestEducation,pastExperience,professionalSkills,resume,coverLetter;
 		if(flag.equalsIgnoreCase("register"))
 		{
 		try{
 			userID=request.getUserID();
-			name=request.getName();
-			email=request.getEmail();
 			dob=request.getDob();
 			currentPosition=request.getCurrentPosition();
 			currentCompany=request.getCurrentCompany();
@@ -45,20 +43,18 @@ public class FoundITServices {
 			professionalSkills=request.getProfessionalSkills();
 			resume=request.getResume();
 			coverLetter=request.getCoverLetter();
-			String sqlString="Insert into USERPROFILE (USERID,NAME,EMAIL,DOB,CURRENT_POSITION,CURRENT_COMPANY,HIGHEST_EDUCATION,PAST_EXPERIENCE,"
-					+ "PROFESSIONAL_SKILLS,RESUME,CV) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			String sqlString="Insert into USERPROFILE (USERID,DOB,CURRENT_POSITION,CURRENT_COMPANY,HIGHEST_EDUCATION,PAST_EXPERIENCE,"
+					+ "PROFESSIONAL_SKILLS,RESUME,CV) VALUES(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement pd=con.prepareStatement(sqlString);
 			pd.setString(1, userID);
-			pd.setString(2, name);
-			pd.setString(3, email);
-			pd.setString(4, dob);
-			pd.setString(5, currentPosition);
-			pd.setString(6,currentCompany);
-			pd.setString(7, highestEducation);
-			pd.setString(8, pastExperience);
-			pd.setString(9, professionalSkills);
-			pd.setString(10, resume);
-			pd.setString(11, coverLetter);
+			pd.setString(2, dob);
+			pd.setString(3, currentPosition);
+			pd.setString(4,currentCompany);
+			pd.setString(5, highestEducation);
+			pd.setString(6, pastExperience);
+			pd.setString(7, professionalSkills);
+			pd.setString(8, resume);
+			pd.setString(9, coverLetter);
 			pd.executeUpdate();
 			status=201;
 		}
@@ -74,7 +70,6 @@ public class FoundITServices {
 		{
 			try{
 				userID=request.getUserID();
-				name=request.getName();				
 				dob=request.getDob();
 				currentPosition=request.getCurrentPosition();
 				currentCompany=request.getCurrentCompany();
@@ -83,20 +78,20 @@ public class FoundITServices {
 				professionalSkills=request.getProfessionalSkills();
 				resume=request.getResume();
 				coverLetter=request.getCoverLetter();
-				String sqlString="UPDATE USERPROFILE SET NAME=?,DOB=?,CURRENT_POSITION=?,CURRENT_COMPANY=?,HIGHEST_EDUCATION=?,"
+				String sqlString="UPDATE USERPROFILE SET DOB=?,CURRENT_POSITION=?,CURRENT_COMPANY=?,HIGHEST_EDUCATION=?,"
 						+ "PAST_EXPERIENCE=?,PROFESSIONAL_SKILLS=?,RESUME=?,CV=? WHERE USERID=?";
 				PreparedStatement pd=con.prepareStatement(sqlString);
 				
-				pd.setString(1, name);
-				pd.setString(2, dob);
-				pd.setString(3, currentPosition);
-				pd.setString(4,currentCompany);
-				pd.setString(5, highestEducation);
-				pd.setString(6, pastExperience);
-				pd.setString(7, professionalSkills);
-				pd.setString(8, resume);
-				pd.setString(9, coverLetter);
-				pd.setString(10, userID);
+				
+				pd.setString(1, dob);
+				pd.setString(2, currentPosition);
+				pd.setString(3,currentCompany);
+				pd.setString(4, highestEducation);
+				pd.setString(5, pastExperience);
+				pd.setString(6, professionalSkills);
+				pd.setString(7, resume);
+				pd.setString(8, coverLetter);
+				pd.setString(9, userID);
 				
 				pd.executeUpdate();
 				status=201;
@@ -122,20 +117,22 @@ public class FoundITServices {
 	@Produces("application/json")
     @Consumes("application/json")
     @Path("/signup")
-	public Response addUsername(UserNameRegRequest request)
+	public Response addUsername(SignUpRegRequest request)
 	
 	{	
 		
 		
 		try {
+			String name=request.getName();
 			String email=request.getEmail();
 			String password=request.getPassword();
 			String userID=request.getUuid();
-			String sqlString="Insert INTO JOBSEEKER (USERID,EMAIL,PASSWORD) VALUES(?,?,?)";
+			String sqlString="Insert INTO JOBSEEKER (USERID,EMAIL,PASSWORD,NAME) VALUES(?,?,?,?)";
 			PreparedStatement pd=con.prepareStatement(sqlString);
 			pd.setString(1, userID);
 			pd.setString(2, email);
 			pd.setString(3,password);
+			pd.setString(4, name);
 			pd.executeUpdate();
 			status=201;
 		} catch (SQLException e) {
@@ -155,6 +152,7 @@ public class FoundITServices {
 	
 	{	
 		try{
+			
 		String email=request.getEmail();
 		String subject=request.getSubject();
 		String message=request.getMessage();

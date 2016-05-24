@@ -2,8 +2,16 @@ package au.edu.unsw.soacourse.ass2;
 
 import java.util.UUID;
 
-public class UserNameRegRequest {
-private String email,password,uuid;
+public class SignUpRegRequest {
+private String email,password,uuid,name;
+
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
 
 public String getUuid() {
 	return uuid;
