@@ -29,8 +29,8 @@ public class JDBC_Connection {
     
         try{
         	System.out.println("Starting Connection Attempt");
-            Class.forName("oracle.jdbc.OracleDriver");
-            con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/XE","SOA","soa");
+            Class.forName("org.sqlite.JDBC");
+            con=DriverManager.getConnection("jdbc:sqlite:soaAssignment2.db");
             System.out.println("Attempt Successfull!! Connection Established!!!!");
         }
         catch(Exception e)
