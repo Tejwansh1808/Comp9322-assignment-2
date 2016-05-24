@@ -11,10 +11,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-
-
 @Path("/foundIT")
 public class FoundITServices {
+<<<<<<< Updated upstream
 	Connection con;
 	JDBC_Connection jd;
 	int status;
@@ -169,6 +168,18 @@ public class FoundITServices {
 			status=500;
 		}
 		return Response.status(status).build();
+=======
+
+	@POST
+	@Produces("application/json")
+	@Consumes("application/json")
+	@Path("/registration")
+	public Response registration(RegistrationRequestDTO registrationRequestDTO) {
+		System.out.println(registrationRequestDTO.getName());
+
+		// do registration
+		return Response.ok().entity("").build();
+>>>>>>> Stashed changes
 	}
 
 }
