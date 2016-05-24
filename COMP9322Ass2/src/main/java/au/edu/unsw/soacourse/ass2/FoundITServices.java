@@ -11,10 +11,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-
-
 @Path("/foundIT")
 public class FoundITServices {
+
 	Connection con;
 	JDBC_Connection jd;
 	int status;
@@ -170,5 +169,6 @@ public class FoundITServices {
 		}
 		return Response.status(status).build();
 	}
+
 
 }

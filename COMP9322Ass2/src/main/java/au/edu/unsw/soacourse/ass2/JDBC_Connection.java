@@ -30,7 +30,7 @@ public class JDBC_Connection {
         try{
         	System.out.println("Starting Connection Attempt");
             Class.forName("org.sqlite.JDBC");
-            con=DriverManager.getConnection("jdbc:sqlite:soaAssignment2.db");
+            con=DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Tejwansh Singh\\MySQLiteDB");
             System.out.println("Attempt Successfull!! Connection Established!!!!");
         }
         catch(Exception e)
@@ -45,7 +45,7 @@ public class JDBC_Connection {
     {
     	JDBC_Connection conn=new JDBC_Connection();
     	Connection con1=conn.Connect();
-    	PreparedStatement st=con1.prepareStatement("Select * From EMP");
+    	PreparedStatement st=con1.prepareStatement("Select * From USERPROFILE");
     	
     	
     }
