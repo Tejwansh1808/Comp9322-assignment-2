@@ -33,6 +33,9 @@ public class FoundITServicesCandidate {
 		con=jd.Connect();
 	}
 	
+	 
+	 
+	 
 	
 	@POST
 	@Produces("application/json")
@@ -122,6 +125,17 @@ public class FoundITServicesCandidate {
 		return Response.ok().status(status).build();
 				 
 	}
+	
+	
+	public ArrayList<ArrayList> getProfile(@PathParam("")String userID)
+	{
+		ArrayList<ArrayList> userProfile;
+		
+		
+		return userProfile;
+	}
+	
+	
 	
 	@POST
 	@Produces("application/json")
