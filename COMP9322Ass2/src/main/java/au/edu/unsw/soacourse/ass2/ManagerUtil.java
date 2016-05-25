@@ -33,7 +33,7 @@ public static void insertCompanyProfile(ArrayList<String> profile,Connection con
 	
 public static void insertReviewer(ArrayList<String> reviewer,Connection con) throws Exception
 {
-	String sqlString="INSERT INTO COMPANY_PROFILE VALUES(?,?,?,?,?)";
+	String sqlString="INSERT INTO HIRING_TEAM VALUES(?,?,?,?,?)";
 	PreparedStatement pd=con.prepareStatement(sqlString);
 	int j=1;
 	for(int i=0;i<reviewer.size();i++)
