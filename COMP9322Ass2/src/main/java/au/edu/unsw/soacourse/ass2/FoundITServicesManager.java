@@ -187,7 +187,10 @@ public Response addCompanyProfile(CompanyAddRequestDTO request)
 	return Response.status(status).build();
 			
 }
-
+@POST
+@Path("/addReviewer")
+@Produces("application/json")
+@Consumes("application/json")
 public Response addHiringTeam(HiringTeamAddRequestDTO request)
 {
 	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
@@ -202,16 +205,16 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 	}
 	if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
 	{	ArrayList<String> reviewer=new ArrayList<String>();
-		String reviewerID,managerID,name,email,password;
+		String reviewerID,managerID,name,username,password;
 		reviewerID=request.getReviewerID();
 		managerID=request.getManagerID();
 		name=request.getName();
-		email=request.getEmail();
+		username=request.getUsername();
 		password=request.getPassword();
 		reviewer.add(reviewerID);
 		reviewer.add(managerID);
 		reviewer.add(name);
-		reviewer.add(email);
+		reviewer.add(username);
 		reviewer.add(password);
 		
 		try {
