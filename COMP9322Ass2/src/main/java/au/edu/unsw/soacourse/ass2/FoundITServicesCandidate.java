@@ -128,10 +128,7 @@ public class FoundITServicesCandidate {
     @Consumes("application/json")
     @Path("/signup")
 	public Response addUsername(SignUpRegRequest request)
-	
 	{	
-		
-		
 		try {
 			String name=request.getName();
 			String email=request.getEmail();
@@ -153,7 +150,6 @@ public class FoundITServicesCandidate {
 		return Response.status(status).build();
 	}
 	
-
 	@POST
 	@Produces("application/json")
     @Consumes("application/json")
