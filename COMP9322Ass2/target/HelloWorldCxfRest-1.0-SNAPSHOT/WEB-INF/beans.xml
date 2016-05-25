@@ -16,7 +16,8 @@
     </jaxrs:server>
       <jaxrs:server id="foundit" address="/">
         <jaxrs:serviceBeans>
-            <bean class="au.edu.unsw.soacourse.ass2.FoundITServices"/>
+            <bean class="au.edu.unsw.soacourse.ass2.FoundITServicesCandidate"/>
+            <bean class="au.edu.unsw.soacourse.ass2.FoundITServicesManager"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
