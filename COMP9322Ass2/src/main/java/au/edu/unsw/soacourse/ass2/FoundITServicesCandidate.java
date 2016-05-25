@@ -125,14 +125,41 @@ public class FoundITServicesCandidate {
 		return Response.ok().status(status).build();
 				 
 	}
-	
-	
-	public ArrayList<ArrayList> getProfile(@PathParam("")String userID)
-	{
-		ArrayList<ArrayList> userProfile;
+	@GET
+	@Produces("application/json")
+	@Path("/candidate/{userid}")
+	public UserProfileResponseDTO getProfile(@PathParam("userid")String userID)
+	{  
+		UserProfileResponseDTO response=new UserProfileResponseDTO();
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+		try{
 		
+		ArrayList<String> jobSeekerProfile=new ArrayList<String>();
+		jobSeekerProfile=ProfileSearch.getProfile(userID, con, "candidate");
+		response.setJobSeeker(jobSeekerProfile);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("Error Occurred in getProfile Service");
+			status=500;
+		}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Security Breach!!!!");
+			
+			
 		
-		return userProfile;
+		}
+		
+		response.setStatus(status);
+		
+		return response;
 	}
 	
 	
@@ -206,12 +233,13 @@ public class FoundITServicesCandidate {
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
 		{
 			
-		
+		status=200;
 		ArrayList<ArrayList> jobResults;
 		try{
+		
 		jobResults=JobSearch.jobSearch(keyword, skills, jobStatus, con);
 		response.setJobResults(jobResults);
-		status=200;
+		
 		}
 		catch(Exception e)
 		{	e.printStackTrace();
@@ -219,12 +247,14 @@ public class FoundITServicesCandidate {
 			status=500;
 		}
 		
-		Response.status(status).build();
+		
 		}
 		else
 		{	System.out.println("Security Breach!!!!");
-			status=800;
+			status=403;
 		}
+		
+		//Response.status(status).build();
 		response.setStatus(status);
 		return response;
 				
@@ -248,7 +278,7 @@ public class FoundITServicesCandidate {
 		try{
 		jobResults=JobSearch.jobSearch(jobID, con);
 		response.setJobResults(jobResults);
-		status=200;
+		
 		}
 		catch(Exception e)
 		{	e.printStackTrace();
@@ -256,13 +286,15 @@ public class FoundITServicesCandidate {
 			status=500;
 		}
 		
-		Response.status(status).build();
+		
 		}
 		else
 		{	System.out.println("Security Breach!!!!");
-			status=800;
+			status=403;
 		}
+		
 		response.setStatus(status);
+		
 		return response;
 				
 	}
