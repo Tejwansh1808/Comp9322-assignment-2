@@ -44,6 +44,18 @@ public class FoundITServicesCandidate {
 	public Response registration ( RegistrationRequestDTO request,@PathParam("flag")String flag){
 		
 		String userID,dob,currentPosition,currentCompany,highestEducation,pastExperience,professionalSkills,resume,coverLetter;
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
 		if(flag.equalsIgnoreCase("register"))
 		{
 		try{
@@ -121,7 +133,12 @@ public class FoundITServicesCandidate {
 		{
 			status=404;
 		}
-		
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Forbidden");
+		}
 		return Response.ok().status(status).build();
 				 
 	}
@@ -133,6 +150,14 @@ public class FoundITServicesCandidate {
 		UserProfileResponseDTO response=new UserProfileResponseDTO();
 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
 		{
 		try{
@@ -172,7 +197,18 @@ public class FoundITServicesCandidate {
 	
 	{	
 		
-		
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
 		try {
 			String name=request.getName();
 			String email=request.getEmail();
@@ -191,6 +227,12 @@ public class FoundITServicesCandidate {
 			 status=500;
 			e.printStackTrace();
 		}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Forbidden");
+		}
 		return Response.status(status).build();
 	}
 	
@@ -202,6 +244,14 @@ public class FoundITServicesCandidate {
 	public Response sendEmail(EmailRequestDTO request)
 	
 	{	
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		
+	if(securityKey.equalsIgnoreCase("i-am-foundit"))
+	{
 		try{
 			
 		String email=request.getEmail();
@@ -216,6 +266,12 @@ public class FoundITServicesCandidate {
 			e.printStackTrace();
 			status=500;
 		}
+	}
+	else
+	{
+		status=403;
+		System.out.println("Access Forbidden");
+	}
 		return Response.status(status).build();
 	}
 	
@@ -230,6 +286,14 @@ public class FoundITServicesCandidate {
 		JobSearchReponseDTO response=new JobSearchReponseDTO();
 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
 		{
 			
@@ -270,6 +334,14 @@ public class FoundITServicesCandidate {
 		JobSearchReponseDTO response=new JobSearchReponseDTO();
 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
 		{
 			
