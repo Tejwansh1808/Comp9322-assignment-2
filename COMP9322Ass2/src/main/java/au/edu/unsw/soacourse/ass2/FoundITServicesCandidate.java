@@ -166,6 +166,7 @@ public class FoundITServicesCandidate {
 		ArrayList<String> jobSeekerProfile=new ArrayList<String>();
 		jobSeekerProfile=ProfileSearch.getProfile(userID, con, "candidate");
 		response.setJobSeeker(jobSeekerProfile);
+		response.setUserID(userID);
 		status=200;
 		}
 		catch(Exception e)

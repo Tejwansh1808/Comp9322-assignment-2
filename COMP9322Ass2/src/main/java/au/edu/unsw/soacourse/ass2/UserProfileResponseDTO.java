@@ -17,13 +17,14 @@ public class UserProfileResponseDTO {
 	public void setJobSeeker(ArrayList<String> jobSeeker) {
 		this.jobSeeker = jobSeeker;
 	}
-	ArrayList<ArrayList> userProfile=new ArrayList<ArrayList>();
+	ArrayList<ArrayList> managerProfile=new ArrayList<ArrayList>();
 	String userID;
-	public ArrayList<ArrayList> getUserProfile() {
-		return userProfile;
+	
+	public ArrayList<ArrayList> getManagerProfile() {
+		return managerProfile;
 	}
-	public void setUserProfile(ArrayList<ArrayList> userProfile) {
-		this.userProfile = userProfile;
+	public void setManagerProfile(ArrayList<ArrayList> managerProfile) {
+		this.managerProfile = managerProfile;
 	}
 	public String getUserID() {
 		return userID;
