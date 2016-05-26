@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -119,7 +120,7 @@ public class FoundITServicesCandidate {
 				pd.setString(9, userID);
 				
 				pd.executeUpdate();
-				status=201;
+				status=204;
 				Response.ok().header("auth", "HelloSKK");
 			}
 			catch(Exception e)
@@ -165,6 +166,7 @@ public class FoundITServicesCandidate {
 		ArrayList<String> jobSeekerProfile=new ArrayList<String>();
 		jobSeekerProfile=ProfileSearch.getProfile(userID, con, "candidate");
 		response.setJobSeeker(jobSeekerProfile);
+		status=200;
 		}
 		catch(Exception e)
 		{
@@ -362,6 +364,7 @@ public class FoundITServicesCandidate {
 		try{
 		jobResults=JobSearch.jobSearch(jobID, con);
 		response.setJobResults(jobResults);
+		status=200;
 		
 		}
 		catch(Exception e)
@@ -383,8 +386,123 @@ public class FoundITServicesCandidate {
 				
 	}
 	
-	public Response addJobAlert()
+	@POST
+	@Produces("application/json")
+    @Consumes("application/json")
+    @Path("/addjobalert")	
+	public Response addJobAlert(AddJobAlertRequestDTO request)
+	{	String jobAlertID,userID,keyword,skills,positionType,subscribe;
+		
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			jobAlertID=request.getJobAlertID();
+			userID=request.getUserID();
+			keyword=request.getKeyword();
+			skills=request.getSkills();
+			positionType=request.getPositionType();
+			subscribe=request.getSubscribe();
+			ArrayList<String> jobAlert=new ArrayList<String>();
+			jobAlert.add(jobAlertID);
+			jobAlert.add(userID);
+			jobAlert.add(keyword);
+			jobAlert.add(skills);
+			jobAlert.add(positionType);
+			jobAlert.add(subscribe);
+			
+			
+			try{
+				CandidateUtil.insertJobAlert(jobAlert, con);
+				status=201;	
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				System.out.println("Error Occured in Candidate Services addJobAlerts");
+				status=500;
+			}
+			
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+		
+		return Response.status(status).build();
+	}
+	
+	@PUT
+	@Produces("application/json")
+	@Consumes("application/json")
+	@Path("/updatejobalert/{flag}")
+	public Response updateJobAlert(@PathParam("flag")String flag,UpdateJobAlertDTO request)
 	{
+	ArrayList<String> jobAlertID=new ArrayList<String>();
+	String userID;
+	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+	if(securityKey==null)
+	{
+		securityKey="default";
+	}
+	if(shortKey==null)
+	{
+		shortKey="default";
+	}
+	if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+	{
+		if(flag.equalsIgnoreCase("subscribe"))
+		{	
+			userID=request.getUserID();
+			jobAlertID=request.getJobALertID();
+			try{
+			CandidateUtil.updateJobAlert(jobAlertID, flag, userID, con);
+			status=204;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				status=500;
+				System.out.println("Error Occurred in candidate Services updateJobAlert subscribe");
+			}
+		}
+		else if(flag.equalsIgnoreCase("unsubscribe"))
+		{	
+			userID=request.getUserID();
+			jobAlertID=request.getJobALertID();
+			try{
+				CandidateUtil.updateJobAlert(jobAlertID, flag, userID, con);
+				status=204;
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+					status=500;
+					System.out.println("Error Occurred in candidate Services updateJobAlert subscribe");
+				}
+		}
+		else
+		{
+			status=404;
+			Response.serverError().build();
+			System.out.println("Flag Incorrect!! Resource Not Found");
+		}
+	}
+	else
+	{
+		status=403;
+		System.out.println("Access Denied");
+	}
 		return Response.status(status).build();
 	}
 	

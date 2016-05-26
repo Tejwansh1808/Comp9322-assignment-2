@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -71,7 +73,7 @@ public class FoundITServicesManager {
 			pd.setString(9, keyword);
 			pd.setString(10, skills);
 			pd.executeUpdate();
-			status=200;
+			status=201;
 			
 			
 		}
@@ -237,4 +239,44 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 	
 	return Response.status(status).build();
 }
+   
+ 	@GET
+ 	@Produces("application/json")
+ 	@Path("/CompanyID/{managerID}")
+ 	public GetCompanyIDResponseDTO getCompanyID(@PathParam("managerID")String managerID)
+ 	{	GetCompanyIDResponseDTO response=new  GetCompanyIDResponseDTO();
+ 		 String companyID="";
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+ 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+ 		if(securityKey==null)
+ 		{
+ 			securityKey="default";
+ 		}
+ 		if(shortKey==null)
+ 		{
+ 			shortKey="default";
+ 		}
+ 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+ 		{
+ 			try{
+ 				companyID=ManagerUtil.getConpanyID(managerID, con);
+ 				response.setCompanyID(companyID);
+ 				System.out.println();
+ 				status=200;
+ 			}
+ 			catch(Exception e)
+ 			{
+ 				e.printStackTrace();
+ 				System.out.println("Error Occurred in Manager Services getCompnayID");
+ 			}
+ 		}
+ 		else
+ 		{
+ 			status=403;
+ 			System.out.println("Access Denied");
+ 		}
+ 		
+ 		return response;
+ 	}
+ 	
 }

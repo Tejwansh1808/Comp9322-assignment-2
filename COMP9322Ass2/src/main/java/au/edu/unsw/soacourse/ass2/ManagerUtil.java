@@ -2,9 +2,11 @@ package au.edu.unsw.soacourse.ass2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class ManagerUtil {
+	static String companyID="";
 
 public static void insertManagerLogin(Connection con,String managerID,String name,String email,String password) throws Exception
 {
@@ -43,5 +45,29 @@ public static void insertReviewer(ArrayList<String> reviewer,Connection con) thr
 	}
 	pd.executeUpdate();
 	
+	
 }
+
+
+
+public static String getConpanyID(String manageID,Connection con)throws Exception
+{
+	
+
+	String sqlString="Select * from COMPANY_PROFILE where MANAGERID=?";
+	
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, manageID);
+	ResultSet rs=pd.executeQuery();
+	while(rs.next())
+	{
+		companyID=(String)rs.getString(1);
+		
+	}
+	
+	return companyID;
+			
+			
+}
+
 }
