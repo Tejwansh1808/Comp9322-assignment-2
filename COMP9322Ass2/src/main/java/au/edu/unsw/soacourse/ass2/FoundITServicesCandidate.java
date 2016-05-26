@@ -140,8 +140,7 @@ public class FoundITServicesCandidate {
 			status=403;
 			System.out.println("Access Forbidden");
 		}
-		return Response.ok().status(status).build();
-				 
+		return Response.ok().status(status).build();		 
 	}
 	@GET
 	@Produces("application/json")
