@@ -294,6 +294,18 @@ public class FoundITServicesCandidate {
 		{
 			shortKey="default";
 		}
+		if(keyword.equalsIgnoreCase(""))
+		{
+			keyword="default";
+		}
+		if(skills.equalsIgnoreCase(""))
+		{
+			skills="default";
+		}
+		if(jobStatus.equalsIgnoreCase(""))
+		{
+			jobStatus="default";
+		}
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
 		{
 			
@@ -369,6 +381,11 @@ public class FoundITServicesCandidate {
 		
 		return response;
 				
+	}
+	
+	public Response addJobAlert()
+	{
+		return Response.status(status).build();
 	}
 	
 }
