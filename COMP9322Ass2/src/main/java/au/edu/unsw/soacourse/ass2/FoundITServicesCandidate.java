@@ -506,5 +506,46 @@ public class FoundITServicesCandidate {
 	}
 		return Response.status(status).build();
 	}
+	@POST
+	@Produces("application/json")
+    @Consumes("application/json")
+    @Path("/saveJob")
+	public Response saveJob(SavedJobRequestDTO request)
+	{	String jobName,jobID,userID;
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			try{
+				jobName=request.getJobName();
+				jobID=request.getJobID();
+				userID=request.getUserID();
+				
+				CandidateUtil.addSavedJobs(jobID, userID, jobName, con);
+				status=201;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				System.out.println("Error Occurred in Candidate Services savedjobs");
+				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+		
+		return Response.status(status).build();
+	}
 	
 }

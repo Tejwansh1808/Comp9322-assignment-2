@@ -63,4 +63,14 @@ public class CandidateUtil {
 		}	
 	}
 
+	//Add Saved Jobs
+	public static  void addSavedJobs(String jobID,String userID,String jobName,Connection con)throws Exception
+	{
+		String sqlString="INSERT INTO SAVEDJOBS VALUES(?,?,?)";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, userID);
+		pd.setString(2, jobID);
+		pd.setString(3, jobName);
+		pd.executeUpdate();
+	}
 }
