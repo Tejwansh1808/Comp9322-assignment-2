@@ -339,7 +339,7 @@ public class FoundITServicesCandidate {
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GET
 	@Path("/job/{jobID}")
 	@Produces("application/json")
@@ -360,10 +360,10 @@ public class FoundITServicesCandidate {
 		{
 			
 		
-		ArrayList<ArrayList> jobResults;
+		ArrayList<ArrayList> job;
 		try{
-		jobResults=JobSearch.jobSearch(jobID, con);
-		response.setJobResults(jobResults);
+		job=JobSearch.job(jobID, con);
+		response.setJob(job);
 		status=200;
 		
 		}

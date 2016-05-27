@@ -9,6 +9,7 @@ public class JobSearch {
 
 	
 	 static ArrayList<ArrayList> jobResults;
+	 static ArrayList job;
 	
 	public static ArrayList<ArrayList> jobSearch(String keyword,String skills,String status,Connection con)
 	{
@@ -53,7 +54,8 @@ public class JobSearch {
 		return jobResults;
 	}
 	
-	public static ArrayList<ArrayList> jobSearch(String jobID, Connection con)
+	
+	public static ArrayList job(String jobID, Connection con)
 	{
 		String sqlString="Select * from JOB where JOB_ID=?";
 		try{
@@ -62,22 +64,22 @@ public class JobSearch {
 			PreparedStatement pd=con.prepareStatement(sqlString);
 			pd.setString(1, jobID);
 			ResultSet rs=pd.executeQuery();
-			jobResults=new ArrayList<ArrayList>();
-			ArrayList temp;
+			job=new ArrayList<ArrayList>();
+			
 			while(rs.next())
 			{
-				temp=new ArrayList<String>();
-				temp.add(rs.getString("JOB_ID"));
-				temp.add(rs.getString("JOB_NAME"));
-				temp.add(rs.getString("COMPANYPROFILE_ID"));
-				temp.add(rs.getString("SALARY_RATE"));
-				temp.add(rs.getString("POSITION_TYPE"));
-				temp.add(rs.getString("LOCATION"));
-				temp.add(rs.getString("JOB_DESCRIPTION"));
-				temp.add(rs.getString("STATUS"));
-				temp.add(rs.getString("KEYWORD"));
-				temp.add(rs.getString("SKILLS"));
-				jobResults.add(temp);
+				
+				job.add(rs.getString("JOB_ID"));
+				job.add(rs.getString("JOB_NAME"));
+				job.add(rs.getString("COMPANYPROFILE_ID"));
+				job.add(rs.getString("SALARY_RATE"));
+				job.add(rs.getString("POSITION_TYPE"));
+				job.add(rs.getString("LOCATION"));
+				job.add(rs.getString("JOB_DESCRIPTION"));
+				job.add(rs.getString("STATUS"));
+				job.add(rs.getString("KEYWORD"));
+				job.add(rs.getString("SKILLS"));
+			
 			}
 			
 			
@@ -91,7 +93,7 @@ public class JobSearch {
 			
 			System.out.println("Error Occurred in service jobSearch.java");
 		}
-		return jobResults;
+		return job;
 	}
 
 }

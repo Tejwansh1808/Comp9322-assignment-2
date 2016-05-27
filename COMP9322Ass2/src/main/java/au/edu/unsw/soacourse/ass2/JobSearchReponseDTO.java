@@ -5,6 +5,15 @@ import java.util.ArrayList;
 public class JobSearchReponseDTO {
 
 ArrayList<ArrayList> jobResults=new ArrayList<ArrayList>();
+ArrayList job=new ArrayList();
+public ArrayList getJob() {
+	return job;
+}
+
+public void setJob(ArrayList job) {
+	this.job = job;
+}
+
 int status;
 public int getStatus() {
 	return status;
