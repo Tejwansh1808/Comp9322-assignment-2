@@ -360,7 +360,7 @@ public class FoundITServicesCandidate {
 		{
 			
 		
-		ArrayList<ArrayList> job;
+		ArrayList job;
 		try{
 		job=JobSearch.job(jobID, con);
 		response.setJob(job);
