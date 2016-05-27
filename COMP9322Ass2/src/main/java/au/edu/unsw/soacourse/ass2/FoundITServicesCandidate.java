@@ -516,6 +516,7 @@ public class FoundITServicesCandidate {
 		if(securityKey==null)
 		{
 			securityKey="default";
+			
 		}
 		if(shortKey==null)
 		{
