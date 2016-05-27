@@ -2,6 +2,7 @@ package au.edu.unsw.soacourse.ass2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class CandidateUtil {
@@ -66,11 +67,30 @@ public class CandidateUtil {
 	//Add Saved Jobs
 	public static  void addSavedJobs(String jobID,String userID,String jobName,Connection con)throws Exception
 	{
-		String sqlString="INSERT INTO SAVEDJOBS VALUES(?,?,?)";
-		PreparedStatement pd=con.prepareStatement(sqlString);
+		String sqlString1="INSERT INTO SAVEDJOBS VALUES(?,?,?)";
+		boolean empty=false;
+		String sqlString2="Select * from SAVEDJOBS where USERID=? and JOB_ID=?";
+		PreparedStatement pd2=con.prepareStatement(sqlString2);
+		pd2.setString(1, userID);
+		pd2.setString(2, jobID);
+		ResultSet rs=pd2.executeQuery();
+		
+		if(!rs.isBeforeFirst())
+		{
+			empty=true;
+		}
+		
+		if(empty==true)
+		{
+		PreparedStatement pd=con.prepareStatement(sqlString1);
 		pd.setString(1, userID);
 		pd.setString(2, jobID);
 		pd.setString(3, jobName);
 		pd.executeUpdate();
+		}
+		else
+		{
+			System.out.println("Already Existing!!!!");
+		}
 	}
 }
