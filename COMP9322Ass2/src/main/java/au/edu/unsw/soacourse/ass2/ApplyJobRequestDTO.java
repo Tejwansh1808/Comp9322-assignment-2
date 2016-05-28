@@ -1,7 +1,7 @@
 package au.edu.unsw.soacourse.ass2;
 
 public class ApplyJobRequestDTO {
-String JobApplicationID,userID,jobID,status,jobStatus;
+String JobApplicationID,userID,jobID,status,resume,cv,dl,adr;
 
 public String getJobApplicationID() {
 	return JobApplicationID;
@@ -35,11 +35,37 @@ public void setStatus(String status) {
 	this.status = status;
 }
 
-public String getJobStatus() {
-	return jobStatus;
+public String getResume() {
+	return resume;
 }
 
-public void setJobStatus(String jobStatus) {
-	this.jobStatus = jobStatus;
+public void setResume(String resume) {
+	this.resume = resume;
 }
+
+public String getCv() {
+	return cv;
+}
+
+public void setCv(String cv) {
+	this.cv = cv;
+}
+
+public String getDl() {
+	return dl;
+}
+
+public void setDl(String dl) {
+	this.dl = dl;
+}
+
+public String getAdr() {
+	return adr;
+}
+
+public void setAdr(String adr) {
+	this.adr = adr;
+}
+
+
 }

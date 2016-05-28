@@ -680,13 +680,16 @@ public class FoundITServicesCandidate {
 		return response;
 	}
 	
+	//Applying for a job
 	@POST
 	@Produces("application/json")
 	@Consumes("application/json")
 	@Path("/applyJob")
 	public Response applyJob(ApplyJobRequestDTO request)
-	{   String jobApplicationID,userID,jobID,applicantStatus,jobStatus;
-		ArrayList<String> job=new ArrayList<String>();
+	{   
+		
+	String jobApplicationID,userID,jobID,applicantStatus,resume,cv,dl,adr;
+	ArrayList<String> job=new ArrayList<String>();
 		
 	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
@@ -705,13 +708,21 @@ public class FoundITServicesCandidate {
 		jobApplicationID=request.getJobApplicationID();
 		userID=request.getUserID();
 		jobID=request.getJobID();
-		applicantStatus=request.getStatus();
-		jobStatus=request.getJobStatus();
+		applicantStatus="recieved";
+		resume=request.getResume();
+		cv=request.getCv();
+		dl=request.getDl();
+		adr=request.getAdr();
+		
 		job.add(jobApplicationID);
 		job.add(userID);
 		job.add(jobID);
-		job.add("received");
-		job.add("start");
+		job.add(applicantStatus);
+		job.add(resume);
+		job.add(cv);
+		job.add(dl);
+		job.add(adr);
+		
 		
 		CandidateUtil.applyJob(job, con);
 		status=201;

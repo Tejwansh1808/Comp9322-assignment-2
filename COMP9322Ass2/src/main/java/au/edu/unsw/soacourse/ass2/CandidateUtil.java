@@ -135,7 +135,7 @@ public class CandidateUtil {
 	{	String userID=job.get(1);
 		String jobID=job.get(2);
 		String sqlString1="Select * from JOBAPPLICATION where USERID=? and JOB_ID=?";
-		String sqlString2="INSERT INTO JOBAPPLICATION VALUES(?,?,?,?,?)";
+		String sqlString2="INSERT INTO JOBAPPLICATION VALUES(?,?,?,?,?,?,?,?)";
 		boolean empty=false;
 		PreparedStatement pd1=con.prepareStatement(sqlString1);
 		pd1.setString(1, userID);
@@ -185,5 +185,35 @@ public class CandidateUtil {
 			exists=true;
 		}
 		return exists;
+	}
+	
+	//get the CV for the user
+	static String cv;
+	public static String getCV(String userID,Connection con)throws Exception
+	{
+		String sqlString="Select CV from USERPROFILE where USERID=?";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, userID);
+		ResultSet rs=pd.executeQuery();
+		while(rs.next())
+		{
+			cv=rs.getString("CV");
+		}
+		return cv;
+	}
+	
+	//get the Resume for the user
+	static String resume;
+	public static String getResume(String userID,Connection con) throws Exception
+	{
+		String sqlString="Select RESUME from USERPROFILE where USERID=?";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, userID);
+		ResultSet rs=pd.executeQuery();
+		while(rs.next())
+		{
+			resume=rs.getString("RESUME");
+		}
+		return resume;
 	}
 }
