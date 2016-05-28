@@ -242,4 +242,13 @@ public class CandidateUtil {
 		return jobApplicationList;
 		
 	}
+	
+	//Delete the Job Application if the Job Status=Open
+	public static void deleteJobApplication(String jobApplicationID, Connection con) throws Exception
+	{
+		String sqlString="Delete from JOBAPPLICATION where JOBAPPLICATIONID=?";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, jobApplicationID);
+		pd.executeUpdate();
+	}
 }

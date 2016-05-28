@@ -772,15 +772,59 @@ public class FoundITServicesCandidate {
 			{
 				e.printStackTrace();
 				status=500;
+				System.out.println("Error Occurred in Candidate Services getJobApplications");
 			}
 		}
 		else
 		{
 			status=403;
 			System.out.println("Access Denied");
-			System.out.println("Error Occurred in Candidate Services getJobApplications");
+			
 		}
 		response.setStatus(status);
 		return response;
+		
+	}
+	
+	//Delete the Job Application
+	@DELETE
+	@Produces("application/json")
+	@Path("jobApplication/{jobApplicationID}/{flag}")
+	public Response deleteJobApplication(@PathParam("jobApplicationID")String jobApplicationID,@PathParam("flag")String flag)
+	{
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+			
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			try
+			{	if(flag.equalsIgnoreCase("delete"))
+				{
+				CandidateUtil.deleteJobApplication(jobApplicationID, con);
+				}
+				status=200;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				status=500;
+				System.out.println("Error Occurred in Candidate Servicee DeleteJobApplication");
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+		
+		return Response.status(status).build();
 	}
 }
