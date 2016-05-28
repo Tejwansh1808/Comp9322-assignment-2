@@ -318,6 +318,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  			catch(Exception e)
  			{
  				e.printStackTrace();
+ 				status=500;
  				System.out.println("Error Occurred in Manager Services getCompnayID");
  			}
  		}
@@ -330,14 +331,46 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  		return response;
  	}
  	
+ 	
+ 	//Get the Job List for the Manager to View and proceed
  	@GET
  	@Produces("application/json")
- 	@Path("jobList/{managetID}")
+ 	@Path("/jobList/{managerID}")
  	public ManagerJobListResponseDTO getJobList(@PathParam("managerID")String managerID)
- 	{
+ 	{	ArrayList<ArrayList<String>> jobList;
  		ManagerJobListResponseDTO response=new ManagerJobListResponseDTO();
- 		
- 		
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+ 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+ 		if(securityKey==null)
+ 		{
+ 			securityKey="default";
+ 		}
+ 		if(shortKey==null)
+ 		{
+ 			shortKey="default";
+ 		}
+ 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+ 		{
+ 			try{
+ 				//System.out.println(managerID);
+ 				jobList=ManagerUtil.getJobList(managerID, con);
+ 				response.setJobList(jobList);
+ 				status=200;
+ 				
+ 			}
+ 			catch(Exception e)
+ 			{
+ 				e.printStackTrace();
+ 				status=500;
+ 				System.out.println("Error Occurred in Manager Services getJobList");
+ 			}
+ 		}
+ 		else
+ 		{
+ 			status=403;
+ 			System.out.println("Access Denied");
+ 		}
+ 		response.setStatus(status);
  		return response;
  	}
  	
