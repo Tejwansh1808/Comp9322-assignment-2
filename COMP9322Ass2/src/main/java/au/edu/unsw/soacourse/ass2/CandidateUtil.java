@@ -115,4 +115,61 @@ public class CandidateUtil {
 		
 		return savedJobs;
 	}
+	
+	//Apply Job Application
+	public static void applyJob(ArrayList<String> job,Connection con) throws Exception
+	{	String userID=job.get(1);
+		String jobID=job.get(2);
+		String sqlString1="Select * from JOBAPPLICATION where USERID=? and JOB_ID=?";
+		String sqlString2="INSERT INTO JOBAPPLICATION VALUES(?,?,?,?,?)";
+		boolean empty=false;
+		PreparedStatement pd1=con.prepareStatement(sqlString1);
+		pd1.setString(1, userID);
+		pd1.setString(2,jobID);
+		ResultSet rs=pd1.executeQuery();
+		
+		if(!rs.isBeforeFirst())
+		{
+			empty=true;
+		}
+		
+		if(empty==true)
+		{
+			PreparedStatement pd2=con.prepareStatement(sqlString2);
+			int j=1;
+			for(int i=0;i<job.size();i++)
+			{
+				pd2.setString(j, job.get(i));
+				j++;
+			}
+			
+			pd2.executeUpdate();
+		}
+		else
+		{
+			System.out.println("Job Already Applied !!!!");
+		}
+		
+	}
+	static boolean exists;
+	//Check Job Application
+	public static boolean checkJobApplication(String userID,String jobID, Connection con) throws Exception 
+	{
+		String sqlString1="Select * from JOBAPPLICATION where USERID=? and JOB_ID=?";
+		PreparedStatement pd1=con.prepareStatement(sqlString1);
+		pd1.setString(1, userID);
+		pd1.setString(2,jobID);
+		
+		ResultSet rs1=pd1.executeQuery();
+		
+		if(!rs1.isBeforeFirst())
+		{
+			exists=false;
+		}
+		else
+		{
+			exists=true;
+		}
+		return exists;
+	}
 }

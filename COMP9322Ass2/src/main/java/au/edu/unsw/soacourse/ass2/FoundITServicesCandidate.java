@@ -594,11 +594,97 @@ public class FoundITServicesCandidate {
 		return response;
 	}
 	
+	@GET
+	@Produces("application/json")
+	@Path("/checkJobApplication/{userID}/{jobID}")
+	public CheckJobApplicationResponse checkJobApplication(@PathParam("userID")String userID,@PathParam("jobID")String jobID)
+	{
+		CheckJobApplicationResponse response=new CheckJobApplicationResponse();
+
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+			
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			try{
+				
+				boolean exists;
+				exists=CandidateUtil.checkJobApplication(userID, jobID, con);
+				response.setExists(exists);
+				status=200;
+			}
+			 catch(Exception e)
+			{
+				 e.printStackTrace();
+				 status=500;
+				 System.out.println("Error Occurred in Candidate Services applyJob");
+			}
+		}
+		else
+		{
+			status=403; 
+			System.out.println("Access Denied");
+		}
+		response.setStatus(status);
+		return response;
+	}
+	
 	@POST
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response applyJob()
+	@Path("/applyJob")
+	public Response applyJob(ApplyJobRequestDTO request)
+	{   String jobApplicationID,userID,jobID,applicantStatus,jobStatus;
+		ArrayList<String> job=new ArrayList<String>();
+		
+	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+	if(securityKey==null)
 	{
+		securityKey="default";
+		
+	}
+	if(shortKey==null)
+	{
+		shortKey="default";
+	}
+	if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+	{
+	try{
+		jobApplicationID=request.getJobApplicationID();
+		userID=request.getUserID();
+		jobID=request.getJobID();
+		applicantStatus=request.getStatus();
+		jobStatus=request.getJobStatus();
+		job.add(jobApplicationID);
+		job.add(userID);
+		job.add(jobID);
+		job.add("received");
+		job.add("start");
+		
+		CandidateUtil.applyJob(job, con);
+		status=201;
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+		status=500;
+		System.out.println("Error Occurred in Candidate Services applyJob");
+	}
+	}
+	else
+	{
+		status=403;
+		System.out.println("Access Denied");
+	}
 		return Response.status(status).build();
 	}
 	
