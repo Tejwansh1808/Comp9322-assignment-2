@@ -31,6 +31,8 @@ public class FoundITServicesManager {
 		con=jd.Connect();
 	}
 	
+	 
+	 // Add a new job posting
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -77,10 +79,7 @@ public class FoundITServicesManager {
 			pd.setString(10, skills);
 			pd.executeUpdate();
 			
-			PreparedStatement pd2=con.prepareStatement(sqlString2);
-			pd2.setString(1, jobID);
-			pd2.setString(2, "start");
-			pd2.executeUpdate();
+			
 			status=201;
 			
 			
@@ -99,6 +98,9 @@ public class FoundITServicesManager {
 		}
 		return Response.status(status).build();
 	}
+	
+	
+	//To change status of the job from open to close 
 	
 	@PUT
 	@Produces("json/application")
@@ -138,6 +140,7 @@ public class FoundITServicesManager {
 	return Response.status(status).build();
 	}
 	
+	//Manager Profile
 	@POST
 	@Path("/addManager")
 	@Produces("application/json")
@@ -180,6 +183,7 @@ public class FoundITServicesManager {
 		return Response.status(status).build();
 	}
 
+	//Add Company Details
 @POST
 @Path("/addCompany")
 @Produces("application/json")
@@ -240,6 +244,8 @@ public Response addCompanyProfile(CompanyAddRequestDTO request)
 	return Response.status(status).build();
 			
 }
+
+//Add Reviewers 
 @POST
 @Path("/addReviewer")
 @Produces("application/json")
@@ -290,7 +296,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 	
 	return Response.status(status).build();
 }
-   
+   //Get the Company ID 
  	@GET
  	@Produces("application/json")
  	@Path("/CompanyID/{managerID}")
@@ -373,5 +379,92 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  		response.setStatus(status);
  		return response;
  	}
+ 	
+ 	//Get the Job Applicants for a particular job
+ 	@GET
+ 	@Produces("application/json")
+ 	@Path("applicants/{jobID}")
+ 	public GetApplicantResponseDTO getApplicants(@PathParam("jobID")String jobID)
+ 	{	GetApplicantResponseDTO response=new GetApplicantResponseDTO();
+ 		ArrayList<ArrayList<String>> applicantList=new ArrayList<ArrayList<String>>();
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+ 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+ 		
+ 		if(securityKey==null)
+ 		{
+ 			securityKey="default";
+ 		}
+ 		if(shortKey==null)
+ 		{
+ 			shortKey="default";
+ 		}
+ 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+ 		{
+ 			try{
+ 				applicantList=ManagerUtil.getJobApplicants(jobID, con);
+ 				
+ 				response.setApplicantList(applicantList);
+ 				status=200;
+ 			}
+ 			catch(Exception e)
+ 			{
+ 				e.printStackTrace();
+ 				status=500;
+ 				System.out.println("Error Occurred in Manager Services getApplicants");
+ 			}
+ 		}
+ 		else
+ 		{
+ 			status=403;
+ 			System.out.println("Access Denied");
+ 		}
+ 		
+ 		response.setStatus(status);
+ 		return response;
+ 	}
+ 	
+ 	
+ 	//To update the Various Job Application Status
+ 	@PUT
+ 	@Produces("application/json")
+ 	@Path("updateJobApplication/{jobApplicationID}/{status}")
+ 	public Response updateJobApplication(@PathParam("jobApplicationID")String jobApplicationID,@PathParam("status")String update)
+ 	{
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+ 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+ 		
+ 		if(securityKey==null)
+ 		{
+ 			securityKey="default";
+ 		}
+ 		if(shortKey==null)
+ 		{
+ 			shortKey="default";
+ 		}
+ 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+ 		{
+ 			try
+ 			{
+ 				ManagerUtil.updateJobApplicationStatus(jobApplicationID, update, con);
+ 				status=204;
+ 			}
+ 			catch(Exception e)
+ 			{
+ 				System.out.println("Error Occurred in Manager Services updateJobApplication");
+ 				e.printStackTrace();
+ 				status=500;
+ 			}
+ 		}
+ 		else
+ 		{
+ 			status=403;
+ 			System.out.println("Access Denied");
+ 		}
+ 		
+ 		
+ 		return Response.status(status).build();
+ 	}
+ 	
+ 	
  	
 }

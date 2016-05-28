@@ -116,8 +116,40 @@ public static void closeJob(String jobID, Connection con)throws Exception
 
 
 //get Job Applicants 
-public static void getJobApplicants(String jobID,Connection con)
+static ArrayList<ArrayList<String>> applicantList;
+public static ArrayList<ArrayList<String>> getJobApplicants(String jobID,Connection con)throws Exception
 {
+	String sqlString="Select JOBAPPLICATION.JOBAPPLICATIONID, JOBSEEKER.USERID,JOBSEEKER.NAME,JOBAPPLICATION.DL,JOBAPPLICATION.ADR from JOBAPPLICATION,JOBSEEKER WHERE JOBAPPLICATION.USERID=JOBSEEKER.USERID AND JOBAPPLICATION.JOB_ID=?";
+	
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, jobID);
+	ResultSet rs=pd.executeQuery();
+	ArrayList<String> temp;
+	applicantList=new ArrayList<ArrayList<String>>();
+	while(rs.next())
+	{
+		temp=new ArrayList<String>();
+		temp.add(rs.getString(1));
+		temp.add(rs.getString(2));
+		temp.add(rs.getString(3));
+		temp.add(rs.getString(4));
+		temp.add(rs.getString(5));
+		applicantList.add(temp);
+	}
+	
+	return applicantList;
+
+}
+
+//Update the status of the job application
+public static void updateJobApplicationStatus(String jobApplicationID,String update,Connection con) throws Exception
+{
+	String sqlString="UPDATE JOBAPPLICATION SET STATUS=? where JOBAPPLICATIONID=? ";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, update);
+	pd.setString(2,jobApplicationID);
+	pd.executeUpdate();
+	
 	
 }
 }
