@@ -93,4 +93,26 @@ public class CandidateUtil {
 			System.out.println("Already Existing!!!!");
 		}
 	}
+	static ArrayList<ArrayList> savedJobs;
+	public static ArrayList<ArrayList> getSavedJobs(String userID, Connection con)throws Exception
+	{
+		String sqlString="Select * from SAVEDJOBS where USERID=?";
+		
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, userID);
+		ResultSet rs=pd.executeQuery();
+		ArrayList<String> temp;
+		savedJobs=new ArrayList<ArrayList>();
+		while(rs.next())
+		{
+			temp=new ArrayList<String>();
+			temp.add(userID);
+			temp.add(rs.getString("JOB_ID"));
+			temp.add(rs.getString("JOB_NAME"));
+			savedJobs.add(temp);
+			
+		}
+		
+		return savedJobs;
+	}
 }
