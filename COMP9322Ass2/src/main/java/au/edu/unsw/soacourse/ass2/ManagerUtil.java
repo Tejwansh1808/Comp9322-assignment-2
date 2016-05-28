@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class ManagerUtil {
 	static String companyID="";
 
+	
+//manager Login
 public static void insertManagerLogin(Connection con,String managerID,String name,String email,String password) throws Exception
 {
 	String sqlString="INSERT INTO MANAGER VALUES(?,?,?,?)";
@@ -19,6 +21,7 @@ public static void insertManagerLogin(Connection con,String managerID,String nam
 	pd.executeUpdate();
 }
 
+//Insert Company Profile
 public static void insertCompanyProfile(ArrayList<String> profile,Connection con) throws Exception
 {
 	String sqlString="INSERT INTO COMPANY_PROFILE VALUES(?,?,?,?,?,?,?,?)";
@@ -32,7 +35,8 @@ public static void insertCompanyProfile(ArrayList<String> profile,Connection con
 	pd.executeUpdate();
 	
 }
-	
+
+//Add the Reviewers 
 public static void insertReviewer(ArrayList<String> reviewer,Connection con) throws Exception
 {
 	String sqlString="INSERT INTO HIRING_TEAM VALUES(?,?,?,?,?)";
@@ -49,7 +53,7 @@ public static void insertReviewer(ArrayList<String> reviewer,Connection con) thr
 }
 
 
-
+//Get the company ID for the manager
 public static String getConpanyID(String manageID,Connection con)throws Exception
 {
 	
@@ -69,5 +73,16 @@ public static String getConpanyID(String manageID,Connection con)throws Exceptio
 			
 			
 }
+
+//get Job List
+ArrayList<ArrayList<String>> jobList;
+public ArrayList<ArrayList<String>> getJobList(String managerID,Connection con)
+{
+	String sqlString="Select * from ";
+	
+	return jobList;
+}
+
+
 
 }

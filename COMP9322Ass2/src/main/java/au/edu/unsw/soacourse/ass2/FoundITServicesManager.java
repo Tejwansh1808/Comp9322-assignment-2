@@ -39,6 +39,7 @@ public class FoundITServicesManager {
 		int salaryRate;
 		
 		String sqlString="Insert INTO JOB VALUES(?,?,?,?,?,?,?,?,?,?)";
+		String sqlString2="INSERT INTO JOBINTERNAL_STATUS VALUES(?,?)";
 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
 		if(securityKey==null)
@@ -50,6 +51,7 @@ public class FoundITServicesManager {
 			shortKey="default";
 		}
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
 		try{
 			jobID=request.getJobID();
 			jobName=request.getJobName();
@@ -73,6 +75,11 @@ public class FoundITServicesManager {
 			pd.setString(9, keyword);
 			pd.setString(10, skills);
 			pd.executeUpdate();
+			
+			PreparedStatement pd2=con.prepareStatement(sqlString2);
+			pd2.setString(1, jobID);
+			pd2.setString(2, "start");
+			pd2.executeUpdate();
 			status=201;
 			
 			
@@ -83,7 +90,12 @@ public class FoundITServicesManager {
 			System.out.println("Erro Occurred in service addJob");
 			status=500;
 		}
-		
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Forbidden ");
+		}
 		return Response.status(status).build();
 	}
 	
@@ -275,6 +287,17 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  			status=403;
  			System.out.println("Access Denied");
  		}
+ 		
+ 		return response;
+ 	}
+ 	
+ 	@GET
+ 	@Produces("application/json")
+ 	@Path("jobList/{managetID}")
+ 	public ManagerJobListResponseDTO getJobList(@PathParam("managerID")String managerID)
+ 	{
+ 		ManagerJobListResponseDTO response=new ManagerJobListResponseDTO();
+ 		
  		
  		return response;
  	}
