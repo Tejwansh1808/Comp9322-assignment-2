@@ -465,6 +465,51 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  		return Response.status(status).build();
  	}
  	
- 	
+ 	//Get BPEL result Candidates ( unsuccessful /under review)
+ 	@GET
+ 	@Produces("application/json")
+ 	@Path("/applicants/{jobID}/{jobApplicationStatus}")
+ 	public GetCandidateResponseDTO getUnsuccessfulCandidates(@PathParam("jobID")String jobID,@PathParam("jobApplicationStatus")String jobApplicationStatus)
+ 	 	{
+ 		ArrayList<ArrayList<String>> candidates;
+ 		String jobName;
+ 		GetCandidateResponseDTO response=new GetCandidateResponseDTO();
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				candidates=ManagerUtil.getCandidate(jobID,jobApplicationStatus, con);
+				jobName=ManagerUtil.getJobName(jobID,con);
+				response.setUnsuccesfulCandidateList(candidates);
+				response.setJobName(jobName);
+				
+				status=200;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services getunsuccessfulCandidates");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+ 			System.out.println("Access Denied");
+		}
+		response.setStatus(status);
+ 		
+		return response;
+ 	}
  	
 }

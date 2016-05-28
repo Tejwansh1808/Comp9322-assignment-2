@@ -152,4 +152,48 @@ public static void updateJobApplicationStatus(String jobApplicationID,String upd
 	
 	
 }
+
+//Get the Unsuccessful Job Applicants
+static ArrayList<ArrayList<String>> candidateList;
+public static ArrayList<ArrayList<String>> getCandidate(String jobID,String jobApplicationStatus,Connection con)throws Exception
+{	
+	
+	String sqlString="Select JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.USERID,JOBSEEKER.NAME,JOBSEEKER.EMAIL from JOBAPPLICATION,JOBSEEKER where JOBAPPLICATION.USERID=JOBSEEKER.USERID and JOBAPPLICATION.JOB_ID=? and JOBAPPLICATION.STATUS=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, jobID);
+	pd.setString(2, jobApplicationStatus);
+	ResultSet rs=pd.executeQuery();
+	ArrayList<String> temp;
+	candidateList=new ArrayList<ArrayList<String>>();
+	while(rs.next())
+	{	temp=new ArrayList<String>();
+		temp.add(rs.getString(1));
+		temp.add(rs.getString(2));
+		temp.add(rs.getString(3));
+		temp.add(rs.getString(4));
+		temp.add(jobID);
+		candidateList.add(temp);
+	}
+	
+	return candidateList;
+}
+
+//get the job name
+static String jobName;
+public static String getJobName(String jobID,Connection con) throws Exception
+{
+	
+	String sqlString="Select JOB_NAME from JOB where JOB_ID=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, jobID);
+	ResultSet rs=pd.executeQuery();
+	while(rs.next())
+	{
+		jobName=rs.getString(1);
+	}
+	
+	return jobName;
+}
+
+
 }

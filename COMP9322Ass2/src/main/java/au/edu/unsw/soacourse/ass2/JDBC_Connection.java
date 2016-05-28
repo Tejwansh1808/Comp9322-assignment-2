@@ -30,7 +30,7 @@ public class JDBC_Connection {
         try{
         	System.out.println("Starting Connection Attempt");
             Class.forName("org.sqlite.JDBC");
-            con=DriverManager.getConnection("jdbc:sqlite:/Users/Zaw/MySQLiteDB");
+            con=DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Tejwansh Singh\\MySQLiteDB");
             System.out.println("Attempt Successfull!! Connection Established!!!!");
         }
         catch(Exception e)
