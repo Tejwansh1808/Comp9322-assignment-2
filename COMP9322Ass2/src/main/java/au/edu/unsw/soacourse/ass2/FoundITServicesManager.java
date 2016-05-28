@@ -512,4 +512,81 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 		return response;
  	}
  	
+ 	@PUT
+ 	@Produces("application/json")
+ 	@Path("updateInternal/{jobID}/{internalValue}")
+ 	public Response updateInternal(@PathParam("jobID")String jobID,@PathParam("internalValue")String internalValue)
+ 	{
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				ManagerUtil.updateInternal(jobID, internalValue, con);
+				status=204;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services updateInternal");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+ 			System.out.println("Access Denied");
+		}
+ 		return Response.status(status).build();
+ 	}
+ 	
+ 	@GET
+ 	@Produces("application/json")
+ 	@Path("/reviewer/{managerID}")
+ 	public GetReviewerResponseDTO getReviewer(@PathParam("managerID")String managerID)
+ 	{	ArrayList<ArrayList<String>> reviewerList;
+ 		GetReviewerResponseDTO response=new GetReviewerResponseDTO();
+ 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				reviewerList=ManagerUtil.getReviewerList(managerID, con);
+				status=200;
+				response.setReviewerList(reviewerList);
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services getReviewer");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+ 			System.out.println("Access Denied");
+		}
+ 		
+		response.setStatus(status);
+ 		return response;
+ 	}
 }

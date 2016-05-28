@@ -195,5 +195,40 @@ public static String getJobName(String jobID,Connection con) throws Exception
 	return jobName;
 }
 
+//Update Internal Value
+public static void updateInternal(String jobID,String internalValue,Connection con)throws Exception
+{
+	String sqlString="UPDATE JOBINTERNAL_STATUS SET INTERNAL=? where JOB_ID=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, internalValue);
+	pd.setString(2, jobID);
+	pd.executeUpdate();
+	
+}
 
+//Get Reviewer List for a particular Manager
+static ArrayList<ArrayList<String>> reviewerList;
+public static ArrayList<ArrayList<String>> getReviewerList(String managerID,Connection con) throws Exception
+{	
+	String sqlString="Select * from HIRING_TEAM where MANAGERID=?";
+	
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, managerID);
+	ResultSet rs=pd.executeQuery();
+	ArrayList<String> temp;
+	reviewerList=new ArrayList<ArrayList<String>>();
+	while(rs.next())
+	{
+		temp=new ArrayList<String>();
+		temp.add(rs.getString(1));
+		temp.add(rs.getString(2));
+		temp.add(rs.getString(3));
+		temp.add(rs.getString(4));
+		temp.add(rs.getString(5));
+		reviewerList.add(temp);
+	}
+
+	
+	return reviewerList;
+}
 }
