@@ -93,6 +93,8 @@ public class CandidateUtil {
 			System.out.println("Already Existing!!!!");
 		}
 	}
+	
+	//get saved jobs
 	static ArrayList<ArrayList> savedJobs;
 	public static ArrayList<ArrayList> getSavedJobs(String userID, Connection con)throws Exception
 	{
@@ -114,6 +116,18 @@ public class CandidateUtil {
 		}
 		
 		return savedJobs;
+	}
+	
+	
+	//Delete Saved Job
+
+	public static void deleteSavedJobs(String userID,String jobID, Connection con) throws Exception
+	{
+		String sqlString="Delete from SAVEDJOBS where USERID=? and JOB_ID=?";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, userID);
+		pd.setString(2, jobID);
+		pd.executeUpdate();
 	}
 	
 	//Apply Job Application

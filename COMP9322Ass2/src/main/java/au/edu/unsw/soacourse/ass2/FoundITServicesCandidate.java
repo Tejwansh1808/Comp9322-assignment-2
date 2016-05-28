@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -579,6 +580,7 @@ public class FoundITServicesCandidate {
 			{
 				e.printStackTrace();
 				System.out.println("Error Occured in Candidate services getSavedJobs");
+				status=500;
 			}
 			
 		}
@@ -593,6 +595,47 @@ public class FoundITServicesCandidate {
 		response.setStatus(status);
 		return response;
 	}
+	@DELETE
+	@Produces("application/json")
+	
+	@Path("/deleteSavedJob/{userID}/{jobID}")
+	public Response deleteSavedJob(@PathParam("userID")String userID,@PathParam("jobID")String jobID)
+	{	
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+			
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			try{ 
+				CandidateUtil.deleteSavedJobs(userID, jobID, con);
+				status=200;
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				System.out.println("Error Occured in Candidate services  DeleteSavedJobs");
+				status=404;
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+			Response.status(status).build();
+			Response.serverError().build();
+		}
+		return Response.status(status).build();
+	}
+	
 	
 	@GET
 	@Produces("application/json")
