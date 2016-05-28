@@ -216,4 +216,30 @@ public class CandidateUtil {
 		}
 		return resume;
 	}
+	
+	//get the Job Applications for a particular user
+	static  ArrayList<ArrayList<String>> jobApplicationList;
+	public static ArrayList<ArrayList<String>> getJobApplicationList(String userID,Connection con) throws Exception
+	{
+		String sqlString="Select JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.STATUS,JOB.JOB_ID,JOB.JOB_NAME,JOB.STATUS"
+				+ " from JOB, JOBAPPLICATION where JOB.JOB_ID=JOBAPPLICATION.JOB_ID and JOBAPPLICATION.USERID=?";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, userID);
+		ResultSet rs=pd.executeQuery();
+		ArrayList<String> temp;
+		jobApplicationList=new ArrayList<ArrayList<String>>();
+		while(rs.next())
+		{
+			temp=new ArrayList<String>();
+			temp.add(rs.getString(1));
+			temp.add(rs.getString(2));
+			temp.add(rs.getString(3));
+			temp.add(rs.getString(4));
+			temp.add(rs.getString(5));
+			jobApplicationList.add(temp);
+		}
+		
+		return jobApplicationList;
+		
+	}
 }

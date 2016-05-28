@@ -743,5 +743,44 @@ public class FoundITServicesCandidate {
 	}
 	
 	
-	
+	//Returning all the Job Application to the Candidate
+	@GET
+	@Produces("application/json")
+	@Path("jobApplication/{userID}")
+	public GetJobApplicationResponseDTO getJobApplications(@PathParam("userID")String userID)
+	{	ArrayList<ArrayList<String>> jobApplicationList=new ArrayList<ArrayList<String>>();
+		GetJobApplicationResponseDTO response=new GetJobApplicationResponseDTO();
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+			
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			try{
+			jobApplicationList=CandidateUtil.getJobApplicationList(userID, con);
+			response.setJobApplicationList(jobApplicationList);
+			status=200;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+			System.out.println("Error Occurred in Candidate Services getJobApplications");
+		}
+		response.setStatus(status);
+		return response;
+	}
 }
