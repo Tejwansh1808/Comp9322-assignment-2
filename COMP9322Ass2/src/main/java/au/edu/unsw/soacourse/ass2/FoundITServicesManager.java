@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -87,7 +88,7 @@ public class FoundITServicesManager {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Erro Occurred in service addJob");
+			System.out.println("Error Occurred in  Manager service addJob");
 			status=500;
 		}
 		}
@@ -97,6 +98,44 @@ public class FoundITServicesManager {
 			System.out.println("Access Forbidden ");
 		}
 		return Response.status(status).build();
+	}
+	
+	@PUT
+	@Produces("json/application")
+	@Path("closeJob/{jobID}")
+	public Response closeJob(@PathParam("jobID")String jobID)
+	{
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				
+				ManagerUtil.closeJob(jobID, con);
+				status=204;
+				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				status=500;
+				System.out.println("Error Occurred in Managers service closeJob");
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Forbidden ");
+		}
+	return Response.status(status).build();
 	}
 	
 	@POST

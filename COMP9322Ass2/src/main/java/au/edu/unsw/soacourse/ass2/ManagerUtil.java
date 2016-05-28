@@ -75,8 +75,8 @@ public static String getConpanyID(String manageID,Connection con)throws Exceptio
 }
 
 //get Job List
-ArrayList<ArrayList<String>> jobList;
-public ArrayList<ArrayList<String>> getJobList(String managerID,Connection con)
+static ArrayList<ArrayList<String>> jobList;
+public static ArrayList<ArrayList<String>> getJobList(String managerID,Connection con)
 {
 	String sqlString="Select * from ";
 	
@@ -84,5 +84,14 @@ public ArrayList<ArrayList<String>> getJobList(String managerID,Connection con)
 }
 
 
+//close a job
+public static void closeJob(String jobID, Connection con)throws Exception
+{
+	String sqlString="UPDATE JOB SET STATUS=? where JOB_ID=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, "Close");
+	pd.setString(2,jobID);
+	pd.executeUpdate();
+}
 
 }
