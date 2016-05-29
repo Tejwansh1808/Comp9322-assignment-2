@@ -1,8 +1,14 @@
 package au.edu.unsw.soacourse.ass2;
 
 public class AssignReviewerResponseDTO {
-	String flag,comment;
-	int status,ErrorRowID;
+	String flag,comment,errorRowID;
+	public String getErrorRowID() {
+		return errorRowID;
+	}
+	public void setErrorRowID(String errorRowID) {
+		this.errorRowID = errorRowID;
+	}
+	int status;
 	public String getFlag() {
 		return flag;
 	}

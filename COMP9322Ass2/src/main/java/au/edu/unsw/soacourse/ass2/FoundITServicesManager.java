@@ -598,7 +598,9 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
   public AssignReviewerResponseDTO assignReviever(AssignReviewerRequestDTO request)
   {	
  	AssignReviewerResponseDTO response=new AssignReviewerResponseDTO();
- 	String jobApplicationID,reviewerID1,reviewerID2;
+ 	String flag,comment,errorRowID;
+ 	ArrayList<ArrayList<String>> assignedReviewers=new ArrayList<ArrayList<String>>();
+ 	ArrayList<String> returnValues=new ArrayList<String>();
   	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
 		
@@ -613,8 +615,16 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
 		{
 			try{
+				assignedReviewers=request.getAssignedReviewerList();
+				returnValues=ManagerUtil.assignReviewer(assignedReviewers, con);
 				
-				
+				flag=returnValues.get(0);
+				comment=returnValues.get(1);
+				errorRowID=returnValues.get(2);
+				response.setFlag(flag);
+				response.setComment(comment);
+				response.setErrorRowID(errorRowID);
+				status=201;
 			}
 			catch(Exception e)
 			{
@@ -632,7 +642,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 	  
 	Response.status(status).build();
 	
-	
+	response.setStatus(status);
 	return response;
   }
  	

@@ -258,7 +258,7 @@ public static boolean checkReviewers(String reviewerID1,String reviewerID2)
 static boolean error=false;
 static String reviewerID1,reviewerID2;
 static int i;
-public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assignedReviewers)
+public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assignedReviewers,Connection con) throws Exception
 {	int index=0;
 	String comment,f;
 	ArrayList<String> returnValues=new ArrayList<String>();
@@ -302,8 +302,29 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 			reviewerID1=temp.get(1);
 			reviewerID2=temp.get(2);
 			
+			PreparedStatement pd1=con.prepareStatement(sqlString);
+			pd1.setString(1, temp.get(0));
+			pd1.setString(2,reviewerID1);
+			pd1.setString(3, "NotDefined");
+			pd1.executeUpdate();
+			PreparedStatement pd2=con.prepareStatement(sqlString);
+			pd2.setString(1, temp.get(0));
+			pd2.setString(2,reviewerID1);
+			pd2.setString(3, "NotDefined");
+			pd2.executeUpdate();
+			
+			
+			
 			
 		}
+		
+		
+		index=0;
+		comment="There was no Error Update Successful!";
+		f="true";
+		returnValues.add(f);
+		returnValues.add(comment);
+		returnValues.add(String.valueOf(index));
 	}
 	
 	return returnValues;
@@ -326,7 +347,7 @@ public static void main(String args[])
 	temp.add("1a");
 	
 	temp1.add(temp);
-	assignReviewer(temp1);
+	//assignReviewer(temp1);
 	
 }
 
