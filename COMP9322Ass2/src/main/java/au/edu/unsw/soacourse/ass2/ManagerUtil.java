@@ -324,7 +324,7 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 			pd1.executeUpdate();
 			PreparedStatement pd2=con.prepareStatement(sqlString);
 			pd2.setString(1, temp.get(0));
-			pd2.setString(2,reviewerID1);
+			pd2.setString(2,reviewerID2);
 			pd2.setString(3, "NotDefined");
 			pd2.executeUpdate();
 			
@@ -343,12 +343,92 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 	}
 	
 	return returnValues;
+
+	
 	
 }
 
+//Get Reviewed Applicants
+static ArrayList<ArrayList<String>> reviewedApplicants;
+public static ArrayList<ArrayList<String>> getReviewedApplicants(String jobID,Connection con) throws Exception
+{	
+	String jobApplicationStatus="under review";
+	String sqlString="SELECT JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.USERID,JOBSEEKER.NAME,JOBSEEKER.EMAIL,JOBINTERNAL_STATUS.INTERNAL from JOBAPPLICATION,JOBSEEKER,JOBINTERNAL_STATUS where JOBSEEKER.USERID=JOBAPPLICATION.USERID and JOBINTERNAL_STATUS.JOB_ID=JOBAPPLICATION.JOB_ID and JOBAPPLICATION.JOB_ID=? and JOBAPPLICATION.STATUS=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, jobID);
+	pd.setString(2, jobApplicationStatus);
+	ResultSet rs=pd.executeQuery();
+	reviewedApplicants=new ArrayList<ArrayList<String>>();
+	String jobApplicationID="";
+	ArrayList<String> temp;		
+	while(rs.next())
+	{
+		temp=new ArrayList<String>();
+		
+		jobApplicationID=rs.getString(1);
+		temp.add(jobApplicationID);
+		temp.add(rs.getString(2));
+		temp.add(rs.getString(3));
+		temp.add(rs.getString(4));
+		temp.add(rs.getString(5));
+		temp.add(jobID);
+		
+		String sqlString2="Select RESULT from REVIEWER where JOBAPPLICATIONID=?";
+		PreparedStatement pd2=con.prepareStatement(sqlString2);
+		pd2.setString(1, jobApplicationID);
+		ResultSet rs2=pd2.executeQuery();
+		while(rs2.next())
+		{
+			temp.add(rs2.getString(1));
+		}	
+		reviewedApplicants.add(temp);
+	}
+	
+	
+	
+	return reviewedApplicants;
+}
 
 
-public static void main(String args[])
+//check for approval of Reviewers 
+static boolean checkApproval(String result1,String result2)
+{
+	boolean flag=false;
+	if(result1.equalsIgnoreCase(result2))
+	{
+		flag=true;
+	}
+	else
+	{
+		flag=false;
+	}
+	
+	return flag;
+}
+
+//short list the job applicants who have been reviewed and approved by the both the reviewers 
+static boolean approved=true;
+static String reviewerResult1,reviewerResult2;
+static int k;
+public ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>  shortListApplicantsList)
+{
+	ArrayList<String> returnvalues=new ArrayList<String>();
+	ArrayList<String> temp;
+	
+	for(k=0;k<shortListApplicantsList.size();k++)
+	{
+		temp=shortListApplicantsList.get(k);
+	}
+	
+	
+	
+	
+	
+	
+	return returnvalues;
+}
+
+public static void main(String args[]) throws Exception
 {
 	ArrayList<String> temp=new ArrayList<String>();
 	ArrayList<ArrayList<String>> temp1=new ArrayList<ArrayList<String>>();
@@ -360,9 +440,11 @@ public static void main(String args[])
 	temp.add("21221d");
 	temp.add("1a");
 	temp.add("1a");
-	
+	JDBC_Connection con1=new JDBC_Connection();
+	Connection con;
+	con=con1.Connect();
 	temp1.add(temp);
-	//assignReviewer(temp1);
+	getReviewedApplicants("1002a",  con);
 	
 }
 

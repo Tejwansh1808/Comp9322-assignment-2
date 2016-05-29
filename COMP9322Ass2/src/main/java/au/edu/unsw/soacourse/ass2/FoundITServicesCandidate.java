@@ -746,7 +746,7 @@ public class FoundITServicesCandidate {
 	//Returning all the Job Application to the Candidate
 	@GET
 	@Produces("application/json")
-	@Path("jobApplication/{userID}")
+	@Path("/jobApplication/{userID}")
 	public GetJobApplicationResponseDTO getJobApplications(@PathParam("userID")String userID)
 	{	ArrayList<ArrayList<String>> jobApplicationList=new ArrayList<ArrayList<String>>();
 		GetJobApplicationResponseDTO response=new GetJobApplicationResponseDTO();
