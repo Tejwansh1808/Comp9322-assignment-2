@@ -594,7 +594,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	@POST
  	@Produces("application/json")
  	@Consumes("application/json")
- 	@Path("assignReview")
+ 	@Path("assignReviewer")
   public AssignReviewerResponseDTO assignReviever(AssignReviewerRequestDTO request)
   {	
  	AssignReviewerResponseDTO response=new AssignReviewerResponseDTO();
