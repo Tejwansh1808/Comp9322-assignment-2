@@ -589,4 +589,34 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 		response.setStatus(status);
  		return response;
  	}
+ 
+//Assign Reviewer to Job Application
+  public Response assignReviever()
+  {
+	  securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			
+		}
+		else
+		{
+			status=403;
+ 			System.out.println("Access Denied");
+		}
+			
+	  
+	  
+	 return Response.status(status).build();
+  }
+ 	
 }
