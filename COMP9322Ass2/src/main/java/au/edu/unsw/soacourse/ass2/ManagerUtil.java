@@ -518,6 +518,33 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 	return returnvalues;
 }
 
+//Background
+boolean a,b;
+public boolean background(String name,String dl,String adr,Connection con) throws Exception
+{
+	String sqlString1="Select * from BACKGROUND where NAME=? and DL=?";
+	String sqlString2="Select * from BACKGROUND where NAME=? and ADR=?";
+	
+	PreparedStatement pd1=con.prepareStatement(sqlString1);
+	pd1.setString(1, name);
+	pd1.setString(2, dl);
+	ResultSet rs1=pd1.executeQuery();
+	
+	if(!rs1.isBeforeFirst())
+	{
+		a=false;
+	}
+	else
+	{
+		a=true;
+	}
+	
+	
+	
+	
+	
+	return (a||b);
+}
 public static void main(String args[]) throws Exception
 {
 	ArrayList<String> temp=new ArrayList<String>();
