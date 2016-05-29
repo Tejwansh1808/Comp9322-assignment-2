@@ -418,10 +418,13 @@ public static boolean checkApproval(String result1,String result2)
 static boolean approved=true;
 static String reviewerResult1,reviewerResult2;
 static int k;
+static String jobID;
 public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>  shortListApplicantsList,String jobName,Connection con)throws Exception
 {
 	ArrayList<String> returnvalues=new ArrayList<String>();
 	ArrayList<String> temp;
+	
+	String comment,f;
 	boolean flag=false;
 	String from,password,To,message,subject;
 	for(k=0;k<shortListApplicantsList.size();k++)
@@ -430,7 +433,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 		reviewerResult1=temp.get(4);
 		reviewerResult2=temp.get(5);
 		flag=checkApproval(reviewerResult1, reviewerResult2);
-		
+		jobID=temp.get(1);
 		if(flag==true)
 		{
 			approved=true;
@@ -486,7 +489,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			password="teju1808";
 			To=temp.get(3);
 			message="Hello, \n We are Sorry to inform you that your job application for job  "+jobName+" has been unsuccessful \n\n Thank You ";
-			subject="Short Listed for Interview for Job: "+jobName;
+			subject="Unsuccessful  Job Application for job: "+jobName;
 			Mail_Util.sendMail(from, password, To, message, subject);
 			
 			System.out.println("The Email Was sent!!!");
@@ -499,8 +502,18 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 	
 	
 	
+	String sqlString="UPDATE JOBINTERNAL_STATUS SET INTERNAL=? where JOB_ID=?";
+	PreparedStatement pd1=con.prepareStatement(sqlString);
+	pd1.setString(1, "interviewer");
+	pd1.setString(2, jobID);
+	pd1.executeUpdate();
+	f="true";
+	comment="There Was No error Process Completed";
 	
+	returnvalues.add(f);
+	returnvalues.add(comment);
 	
+			
 	
 	return returnvalues;
 }
@@ -518,13 +531,13 @@ public static void main(String args[]) throws Exception
 	temp.add("yes");
 	temp1.add(temp);
 	temp=new ArrayList<String>();
-	temp.add("ja2");
+	/*temp.add("ja2");
 	temp.add("1002a");
 	temp.add("1223a");
 	temp.add("tejwansh1808@gmail.com");
 	temp.add("yes");
 	temp.add("no");
-	temp1.add(temp);
+	temp1.add(temp);*/
 	JDBC_Connection con1=new JDBC_Connection();
 	Connection con;
 	con=con1.Connect();

@@ -720,6 +720,9 @@ public ReviewedCandidateResponseDTO getReviewedApplicants(@PathParam("jobID")Str
 public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsRequestDTO request)
 {
 	ShortListApplicantsResponseDTO response=new ShortListApplicantsResponseDTO();
+	ArrayList<String> returnValues=new ArrayList<String>();
+	String jobName;
+	ArrayList<ArrayList<String>> shortListApplicantsList=new ArrayList<ArrayList<String>>();
 	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
 		
@@ -734,7 +737,9 @@ public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsReq
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
 		{
 			try{
-				
+				shortListApplicantsList=request.getShortListApplicantsList();
+				jobName=request.getJobName();
+				returnValues=ManagerUtil.shortListApplicants(shortListApplicantsList, jobName, con);
 				status=201;
 			}
 			catch(Exception e)
@@ -753,5 +758,6 @@ public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsReq
 	return response;
 }
  
+//Back Ground Check Service 
  	
 }
