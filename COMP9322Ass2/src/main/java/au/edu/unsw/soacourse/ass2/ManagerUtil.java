@@ -224,11 +224,110 @@ public static ArrayList<ArrayList<String>> getReviewerList(String managerID,Conn
 		temp.add(rs.getString(2));
 		temp.add(rs.getString(3));
 		temp.add(rs.getString(4));
-		temp.add(rs.getString(5));
+		
 		reviewerList.add(temp);
 	}
 
 	
 	return reviewerList;
 }
+//Check the values of Reviewers for being assigned 
+static boolean flag=true;
+public static boolean checkReviewers(String reviewerID1,String reviewerID2)
+{
+	if(reviewerID1=="")
+	{
+		flag=false;
+	}
+	if(reviewerID2=="")
+	{
+		flag=false;
+	}
+	if(reviewerID1=="" && reviewerID2=="")
+	{
+		flag=false;
+	}
+	if(reviewerID1.equalsIgnoreCase(reviewerID2))
+	{
+		flag=false;
+	}
+	return flag;
+}
+
+//Read and add the value of the Reviewers to respective job applications
+static boolean error=false;
+static String reviewerID1,reviewerID2;
+static int i;
+public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assignedReviewers)
+{	int index=0;
+	String comment,f;
+	ArrayList<String> returnValues=new ArrayList<String>();
+	ArrayList<String> temp;
+	for(i=0;i<assignedReviewers.size();i++)
+	{	temp=new ArrayList<String>();
+		temp=assignedReviewers.get(i);
+		 reviewerID1=temp.get(1);
+		 reviewerID2=temp.get(2);
+		 boolean flag;
+		 flag=checkReviewers(reviewerID1, reviewerID2);
+		 
+		 if(flag==false)
+		 {
+			 error=true;
+			 break;
+		 }
+		
+		
+	}
+	
+	if(error==true)
+	{	
+		index=i+1;
+		//System.out.println("Error Index:"+index);
+		comment="There is an error : The reviewers are the same or not provided to job application at index="+index;
+		f="false";
+		returnValues.add(f);
+		returnValues.add(comment);
+		returnValues.add(String.valueOf(index));
+	}
+	
+	if(error==false)
+	{
+		String sqlString="INSERT INTO REVIEWER VALUES(?,?,?)";
+		//System.out.println("No Error Was Found");
+		for(i=0;i<assignedReviewers.size();i++)
+		{
+			temp=new ArrayList<String>();
+			temp=assignedReviewers.get(i);
+			reviewerID1=temp.get(1);
+			reviewerID2=temp.get(2);
+			
+			
+		}
+	}
+	
+	return returnValues;
+	
+}
+
+
+
+public static void main(String args[])
+{
+	ArrayList<String> temp=new ArrayList<String>();
+	ArrayList<ArrayList<String>> temp1=new ArrayList<ArrayList<String>>();
+	temp.add("21221d");
+	temp.add("1a");
+	temp.add("2a");
+	temp1.add(temp);
+	temp=new ArrayList<String>();
+	temp.add("21221d");
+	temp.add("1a");
+	temp.add("1a");
+	
+	temp1.add(temp);
+	assignReviewer(temp1);
+	
+}
+
 }

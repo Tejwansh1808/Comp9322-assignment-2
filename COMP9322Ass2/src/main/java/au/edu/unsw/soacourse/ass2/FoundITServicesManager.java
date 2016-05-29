@@ -591,10 +591,16 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	}
  
 //Assign Reviewer to Job Application
-  public Response assignReviever()
-  {
-	  securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
-		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+ 	@POST
+ 	@Produces("application/json")
+ 	@Consumes("application/json")
+ 	@Path("assignReview")
+  public AssignReviewerResponseDTO assignReviever(AssignReviewerRequestDTO request)
+  {	
+ 	AssignReviewerResponseDTO response=new AssignReviewerResponseDTO();
+ 	String jobApplicationID,reviewerID1,reviewerID2;
+  	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
 		
 		if(securityKey==null)
 		{
@@ -606,7 +612,16 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 		}
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
 		{
-			
+			try{
+				
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services assignReviewer");
+ 				e.printStackTrace();
+ 				status=500;
+			}
 		}
 		else
 		{
@@ -615,8 +630,10 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 		}
 			
 	  
-	  
-	 return Response.status(status).build();
+	Response.status(status).build();
+	
+	
+	return response;
   }
  	
 }
