@@ -472,7 +472,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	public GetCandidateResponseDTO getUnsuccessfulCandidates(@PathParam("jobID")String jobID,@PathParam("jobApplicationStatus")String jobApplicationStatus)
  	 	{
  		ArrayList<ArrayList<String>> candidates;
- 		String jobName;
+ 		String jobName,internal;
  		GetCandidateResponseDTO response=new GetCandidateResponseDTO();
  		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
@@ -490,9 +490,10 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 			try{
 				candidates=ManagerUtil.getCandidate(jobID,jobApplicationStatus, con);
 				jobName=ManagerUtil.getJobName(jobID,con);
-				response.setUnsuccesfulCandidateList(candidates);
+				internal=ManagerUtil.getInternal(jobID, con);
+				response.setCandidateList(candidates);
 				response.setJobName(jobName);
-				
+				response.setInternal(internal);
 				status=200;
 			}
 			catch(Exception e)
@@ -645,5 +646,44 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 	response.setStatus(status);
 	return response;
   }
+ 	
+//Get the ShortListed Candidates after the Reviewers have reviewed the  job Applications 
+@GET 
+@Produces("application/json")
+@Path("reviewedApplicants/{jobID}")
+public void getReviewedApplicants(@PathParam("jobID")String jobID)
+{
+	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services ReviewedApplicants");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+		status=403;
+		System.out.println("Access Denied");
+		}
+		
+}
+ 
+ 
  	
 }

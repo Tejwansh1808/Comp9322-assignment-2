@@ -194,6 +194,21 @@ public static String getJobName(String jobID,Connection con) throws Exception
 	
 	return jobName;
 }
+//get the job internal status
+static String internal;
+public static String getInternal(String jobID,Connection con) throws Exception 
+{
+	String sqlString="Select INTERNAL from JOBINTERNAL_STATUS where JOB_ID=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, jobID);
+	ResultSet rs=pd.executeQuery();
+	while(rs.next())
+	{
+		internal=rs.getString(1);
+	}
+	return internal;
+}
+
 
 //Update Internal Value
 public static void updateInternal(String jobID,String internalValue,Connection con)throws Exception
