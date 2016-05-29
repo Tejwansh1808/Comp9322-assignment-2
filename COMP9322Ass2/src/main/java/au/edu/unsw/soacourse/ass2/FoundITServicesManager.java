@@ -763,8 +763,10 @@ public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsReq
 @Produces("application/json")
 @Consumes("application/json")
 @Path("/background")
-public Response getBackgroundCheck(BackgroundRequestDTO request)
-{
+public BackgroundResponseDTO getBackgroundCheck(BackgroundRequestDTO request)
+{	String name,dl,adr;
+	boolean flag=false; 
+	BackgroundResponseDTO response=new BackgroundResponseDTO();
 	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
 		
@@ -779,7 +781,11 @@ public Response getBackgroundCheck(BackgroundRequestDTO request)
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
 		{
 			try{
-				
+				name=request.getName();
+				dl=request.getDl();
+				adr=request.getAdr();
+				flag=ManagerUtil.background(name, dl, adr, con);
+				response.setFlag(flag);
 				status=201;
 			}
 			catch(Exception e)
@@ -796,8 +802,8 @@ public Response getBackgroundCheck(BackgroundRequestDTO request)
 		}
 		
 		
-	
-	return Response.status(status).build();
+	response.setStatus(status);;
+	return response;
 }
 
  	

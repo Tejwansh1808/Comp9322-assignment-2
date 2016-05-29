@@ -519,8 +519,8 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 }
 
 //Background
-boolean a,b;
-public boolean background(String name,String dl,String adr,Connection con) throws Exception
+static boolean a,b;
+public static  boolean background(String name,String dl,String adr,Connection con) throws Exception
 {
 	String sqlString1="Select * from BACKGROUND where NAME=? and DL=?";
 	String sqlString2="Select * from BACKGROUND where NAME=? and ADR=?";
@@ -539,7 +539,19 @@ public boolean background(String name,String dl,String adr,Connection con) throw
 		a=true;
 	}
 	
+	PreparedStatement pd2=con.prepareStatement(sqlString2);
+	pd2.setString(1, name);
+	pd2.setString(2, adr);
+	ResultSet rs2=pd2.executeQuery();
 	
+	if(!rs2.isBeforeFirst())
+	{
+		b=false;
+	}
+	else
+	{
+		b=true;
+	}
 	
 	
 	
