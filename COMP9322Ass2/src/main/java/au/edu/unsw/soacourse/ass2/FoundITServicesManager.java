@@ -2,6 +2,7 @@ package au.edu.unsw.soacourse.ass2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
@@ -78,7 +79,22 @@ public class FoundITServicesManager {
 			pd.setString(9, keyword);
 			pd.setString(10, skills);
 			pd.executeUpdate();
-			
+			String sqlString3="Select * from JOBINTERNAL_STATUS where JOB_ID=?";
+			String sqlString4="INSERT INTO JOBINTERNAL_STATUS VALUES(?,?)";
+			PreparedStatement pd3=con.prepareStatement(sqlString3);
+			pd3.setString(1, jobID);
+			ResultSet rs3=pd3.executeQuery();
+			if(!rs3.isBeforeFirst())
+			{
+				PreparedStatement pd4=con.prepareStatement(sqlString4);
+				pd4.setString(1, jobID);
+				pd4.setString(2, "start");
+				pd4.executeUpdate();
+			}
+			else
+			{
+				System.out.println("Job ID Already Exists in JOBINTERVAL_STATUS");
+			}
 			
 			status=201;
 			

@@ -391,13 +391,21 @@ public static ArrayList<ArrayList<String>> getReviewedApplicants(String jobID,Co
 
 
 //check for approval of Reviewers 
-static boolean checkApproval(String result1,String result2)
+public static boolean checkApproval(String result1,String result2)
 {
 	boolean flag=false;
 	if(result1.equalsIgnoreCase(result2))
 	{
+		if(result1.equalsIgnoreCase("yes"))
+		{
 		flag=true;
+		}
+		else
+		{
+		flag=false;
+		}
 	}
+	
 	else
 	{
 		flag=false;
@@ -410,14 +418,83 @@ static boolean checkApproval(String result1,String result2)
 static boolean approved=true;
 static String reviewerResult1,reviewerResult2;
 static int k;
-public ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>  shortListApplicantsList)
+public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>  shortListApplicantsList,String jobName,Connection con)throws Exception
 {
 	ArrayList<String> returnvalues=new ArrayList<String>();
 	ArrayList<String> temp;
-	
+	boolean flag=false;
+	String from,password,To,message,subject;
 	for(k=0;k<shortListApplicantsList.size();k++)
 	{
 		temp=shortListApplicantsList.get(k);
+		reviewerResult1=temp.get(4);
+		reviewerResult2=temp.get(5);
+		flag=checkApproval(reviewerResult1, reviewerResult2);
+		
+		if(flag==true)
+		{
+			approved=true;
+		}
+		else
+		{
+			approved=false;
+		}
+		
+		
+		if(approved==true)
+		{
+			String URL="http://localhost:8080/COMP9322-Assign2-Client/interviewacceptance.jsp?jobApplicationID="+temp.get(0)+"&userID="+temp.get(2);
+			String sqlString1="UPDATE JOBAPPLICATION SET STATUS=? where USERID=? and JOBAPPLICATIONID=?";
+			PreparedStatement pd1=con.prepareStatement(sqlString1);
+			pd1.setString(1, "short listed");
+			pd1.setString(2, temp.get(2));
+			pd1.setString(3, temp.get(0));
+			pd1.executeUpdate();
+			System.out.println("The Job application status was updated to ShortListed");
+			
+			from="founditservices@gmail.com";
+			password="teju1808";
+			To=temp.get(3);
+			message="Hello, /n You have been Selected for Interview for the job "+jobName+"\n Please Click on the URL \n\n URL :"+URL+"\n Thank You ";
+			subject="Short Listed for Interview for Job: "+jobName;
+			Mail_Util.sendMail(from, password, To, message, subject);
+			
+			System.out.println("The Email Was sent!!!");
+			
+			String sqlString2="Insert INTO INTERVIEW VALUES(?,?,?)";
+			PreparedStatement pd2=con.prepareStatement(sqlString2);
+			pd2.setString(1,temp.get(0));
+			pd2.setString(2,"NotDefined");
+			pd2.setString(3,"NotDefined");
+			pd2.executeUpdate();
+			System.out.println("The Job Application was added to the Interview Table");
+			
+			
+			
+		}
+		else
+		{
+			String sqlString1="UPDATE JOBAPPLICATION SET STATUS=? where USERID=? and JOBAPPLICATIONID=?";
+			PreparedStatement pd1=con.prepareStatement(sqlString1);
+			pd1.setString(1, "unsuccessful");
+			pd1.setString(2, temp.get(2));
+			pd1.setString(3, temp.get(0));
+			pd1.executeUpdate();
+			System.out.println("The Job application status was updated to unsuccessful");
+			
+			from="founditservices@gmail.com";
+			password="teju1808";
+			To=temp.get(3);
+			message="Hello, \n We are Sorry to inform you that your job application for job  "+jobName+" has been unsuccessful \n\n Thank You ";
+			subject="Short Listed for Interview for Job: "+jobName;
+			Mail_Util.sendMail(from, password, To, message, subject);
+			
+			System.out.println("The Email Was sent!!!");
+			
+			
+			
+		}
+		
 	}
 	
 	
@@ -432,19 +509,27 @@ public static void main(String args[]) throws Exception
 {
 	ArrayList<String> temp=new ArrayList<String>();
 	ArrayList<ArrayList<String>> temp1=new ArrayList<ArrayList<String>>();
-	temp.add("21221d");
-	temp.add("1a");
-	temp.add("2a");
+	
+	temp.add("ja1");
+	temp.add("1001a");
+	temp.add("1221a");
+	temp.add("tejwansh1808@gmail.com");
+	temp.add("yes");
+	temp.add("yes");
 	temp1.add(temp);
 	temp=new ArrayList<String>();
-	temp.add("21221d");
-	temp.add("1a");
-	temp.add("1a");
+	temp.add("ja2");
+	temp.add("1002a");
+	temp.add("1223a");
+	temp.add("tejwansh1808@gmail.com");
+	temp.add("yes");
+	temp.add("no");
+	temp1.add(temp);
 	JDBC_Connection con1=new JDBC_Connection();
 	Connection con;
 	con=con1.Connect();
-	temp1.add(temp);
-	getReviewedApplicants("1002a",  con);
+	
+	shortListApplicants(temp1, "Helll", con);
 	
 }
 
