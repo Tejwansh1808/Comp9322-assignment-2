@@ -120,7 +120,7 @@ public class FoundITServicesManager {
 	
 	@PUT
 	@Produces("json/application")
-	@Path("closeJob/{jobID}")
+	@Path("/closeJob/{jobID}")
 	public Response closeJob(@PathParam("jobID")String jobID)
 	{
 		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
@@ -759,5 +759,46 @@ public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsReq
 }
  
 //Back Ground Check Service 
+@POST
+@Produces("application/json")
+@Consumes("application/json")
+@Path("/background")
+public Response getBackgroundCheck(BackgroundRequestDTO request)
+{
+	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services background");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+		
+		
+	
+	return Response.status(status).build();
+}
+
  	
 }
