@@ -249,7 +249,7 @@ public static ArrayList<ArrayList<String>> getReviewerList(String managerID,Conn
 //Check the values of Reviewers for being assigned 
 static boolean flag=true;
 public static boolean checkReviewers(String reviewerID1,String reviewerID2)
-{
+{	flag=true;
 	if(reviewerID1=="")
 	{
 		flag=false;
@@ -271,10 +271,11 @@ public static boolean checkReviewers(String reviewerID1,String reviewerID2)
 
 //Read and add the value of the Reviewers to respective job applications
 static boolean error=false;
-static String reviewerID1,reviewerID2,jobApplicationID;
-static int i;
+static String reviewerID1="",reviewerID2="",jobApplicationID="";
+static int i=0;
 public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assignedReviewers,Connection con) throws Exception
 {	int index=0;
+	error=false;
 	String comment,f;
 	ArrayList<String> returnValues=new ArrayList<String>();
 	ArrayList<String> temp;
