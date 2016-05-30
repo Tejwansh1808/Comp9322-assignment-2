@@ -480,7 +480,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			from="founditservices@gmail.com";
 			password="teju1808";
 			To=temp.get(4);
-			message="Hello, /n You have been Selected for Interview for the job "+jobName+"\n Please Click on the URL \n\n URL :"+URL+"\n Thank You ";
+			message="Hello, /n You have been Selected for Interview for the job \n Please Click on the URL \n\n URL :"+URL+"\n Thank You ";
 			subject="Short Listed for Interview for Job: "+jobName;
 			Mail_Util.sendMail(from, password, To, message, subject);
 			
@@ -510,7 +510,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			from="founditservices@gmail.com";
 			password="teju1808";
 			To=temp.get(4);
-			message="Hello, \n We are Sorry to inform you that your job application for job  "+jobName+" has been unsuccessful \n\n Thank You ";
+			message="Hello, \n We are Sorry to inform you that your job application for job \n has been unsuccessful \n\n Thank You ";
 			subject="Unsuccessful  Job Application for job: "+jobName;
 			Mail_Util.sendMail(from, password, To, message, subject);
 			
