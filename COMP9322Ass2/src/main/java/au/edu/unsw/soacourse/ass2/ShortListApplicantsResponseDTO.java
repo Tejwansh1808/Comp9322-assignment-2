@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ShortListApplicantsResponseDTO {
 	
-	String flag,comment,errorRowID;
+	String flag,comment;
 	int status;
 	public int getStatus() {
 		return status;
@@ -30,13 +30,7 @@ public class ShortListApplicantsResponseDTO {
 		this.comment = comment;
 	}
 
-	public String getErrorRowID() {
-		return errorRowID;
-	}
-
-	public void setErrorRowID(String errorRowID) {
-		this.errorRowID = errorRowID;
-	}
+	
 	
 
 }

@@ -441,7 +441,7 @@ static boolean approved=true;
 static String reviewerResult1,reviewerResult2;
 static int k;
 static String jobID;
-public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>  shortListApplicantsList,String jobName,Connection con)throws Exception
+public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>  shortListApplicantsList,Connection con)throws Exception
 {
 	ArrayList<String> returnvalues=new ArrayList<String>();
 	ArrayList<String> temp;

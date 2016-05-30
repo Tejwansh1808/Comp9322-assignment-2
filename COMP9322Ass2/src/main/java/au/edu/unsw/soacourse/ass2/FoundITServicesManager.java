@@ -738,8 +738,11 @@ public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsReq
 		{
 			try{
 				shortListApplicantsList=request.getShortListApplicantsList();
-				jobName=request.getJobName();
-				returnValues=ManagerUtil.shortListApplicants(shortListApplicantsList, jobName, con);
+				
+				returnValues=ManagerUtil.shortListApplicants(shortListApplicantsList, con);
+				response.setFlag(returnValues.get(0));
+				response.setComment(returnValues.get(1));
+				
 				status=201;
 			}
 			catch(Exception e)
