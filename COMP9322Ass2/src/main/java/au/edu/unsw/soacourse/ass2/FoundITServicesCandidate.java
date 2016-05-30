@@ -829,4 +829,45 @@ public class FoundITServicesCandidate {
 	}
 	
 	
+	//Applicant Response
+	@PUT
+	@Produces("application/json")
+	@Path("/acceptance/{jobApplicationID}/{response}")
+	public Response addApplicantResponse(@PathParam("jobApplicationID")String jobApplicationID,@PathParam("response")String response)
+	{
+		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+		shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		if(securityKey==null)
+		{
+			securityKey="default";
+			
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-candidate"))
+		{
+			try{
+				
+				CandidateUtil.addResponse(jobApplicationID, response, con);
+				status=204;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				status=500;
+				System.out.println("Error Occurred in Candidate Servicee addApplicantResponse");
+			}
+			
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+		
+		return Response.status(status).build();
+	}
+	
 }

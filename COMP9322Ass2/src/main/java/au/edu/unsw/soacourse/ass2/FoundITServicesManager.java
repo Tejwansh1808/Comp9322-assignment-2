@@ -806,5 +806,54 @@ public BackgroundResponseDTO getBackgroundCheck(BackgroundRequestDTO request)
 	return response;
 }
 
- 	
+ //Get the Interview Applicants for the Manager 
+@GET 
+@Produces("application/json")
+@Path("/interview/{jobID}")
+public GetInterviewApplicantsResponseDTO getInterviewApplicants(@PathParam("jobID")String jobID)
+{
+	GetInterviewApplicantsResponseDTO response=new GetInterviewApplicantsResponseDTO();
+	ArrayList<ArrayList<String>> applicants=new ArrayList<ArrayList<String>>();
+	String jobName;
+	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+			
+				applicants=ManagerUtil.getInterviewApplicants(jobID, con);
+				jobName=ManagerUtil.getJobName(jobID, con);
+				response.setApplicants(applicants);
+				response.setJobName(jobName);
+						
+				status=200;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services getIntervieweApplicants");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+	
+	
+	response.setStatus(status);
+	return response;
+}
+
+
 }

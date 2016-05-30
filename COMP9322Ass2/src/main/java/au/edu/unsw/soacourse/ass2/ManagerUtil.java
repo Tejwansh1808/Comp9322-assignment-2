@@ -271,7 +271,7 @@ public static boolean checkReviewers(String reviewerID1,String reviewerID2)
 
 //Read and add the value of the Reviewers to respective job applications
 static boolean error=false;
-static String reviewerID1,reviewerID2;
+static String reviewerID1,reviewerID2,jobApplicationID;
 static int i;
 public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assignedReviewers,Connection con) throws Exception
 {	int index=0;
@@ -305,7 +305,7 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 		returnValues.add(comment);
 		returnValues.add(String.valueOf(index));
 	}
-	
+	String jobID="";
 	if(error==false)
 	{
 		String sqlString="INSERT INTO REVIEWER VALUES(?,?,?)";
@@ -314,6 +314,7 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 		{
 			temp=new ArrayList<String>();
 			temp=assignedReviewers.get(i);
+			jobApplicationID=temp.get(0);
 			reviewerID1=temp.get(1);
 			reviewerID2=temp.get(2);
 			
@@ -332,6 +333,23 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 			
 			
 		}
+		
+		String sqlString1="SELECT JOB_ID from JOBAPPLICATION where JOBAPPLICATIONID=?";
+		PreparedStatement pd1=con.prepareStatement(sqlString1);
+		pd1.setString(1, jobApplicationID);
+		ResultSet rs=pd1.executeQuery();
+		while(rs.next())
+		{
+			jobID=rs.getString(1);
+		}
+				
+		System.out.println(jobID);
+		String sqlString2="UPDATE JOBINTERNAL_STATUS SET INTERNAL=? where JOB_ID=?";
+		PreparedStatement pd2=con.prepareStatement(sqlString2);
+		pd2.setString(2, jobID);
+		pd2.setString(1, "reviewer");
+		pd2.executeUpdate();
+		
 		
 		
 		index=0;
@@ -557,6 +575,38 @@ public static  boolean background(String name,String dl,String adr,Connection co
 	
 	return (a||b);
 }
+
+//get the interview candidates
+public static ArrayList<ArrayList<String>> getInterviewApplicants(String jobID,Connection con) throws Exception
+{	ArrayList<ArrayList<String>> applicants;
+	String sqlString="Select JOBAPPLICATION.JOB_ID,JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.USERID, JOBSEEKER.NAME,JOBSEEKER.EMAIL from JOBSEEKER,JOBAPPLICATION,INTERVIEW where JOBAPPLICATION.JOB_ID=? AND INTERVIEW.RESPONSE=? AND JOBAPPLICATION.STATUS=? AND JOBAPPLICATION.JOBAPPLICATIONID=INTERVIEW.JOBAPPLICATIONID AND JOBAPPLICATION.USERID=JOBSEEKER.USERID";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, jobID);
+	pd.setString(2, "Accept");
+	pd.setString(3, "short listed");
+	ResultSet rs=pd.executeQuery();
+	ArrayList<String> temp;
+	applicants=new ArrayList<ArrayList<String>>();
+	while(rs.next())
+	{	
+		temp=new ArrayList<String>();
+		temp.add(rs.getString(1));
+		temp.add(rs.getString(2));
+		temp.add(rs.getString(3));
+		temp.add(rs.getString(4));
+		temp.add(rs.getString(5));
+		applicants.add(temp);
+	}
+	
+	return applicants;
+}
+
+//Add the Selected Applicants 
+public static void addSelectedApplicants() throws Exception
+{
+	
+}
+
 public static void main(String args[]) throws Exception
 {
 	ArrayList<String> temp=new ArrayList<String>();
@@ -584,5 +634,9 @@ public static void main(String args[]) throws Exception
 	shortListApplicants(temp1, "Helll", con);
 	
 }
+
+
+
+
 
 }

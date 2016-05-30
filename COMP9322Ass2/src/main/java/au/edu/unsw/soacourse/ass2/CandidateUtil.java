@@ -269,4 +269,18 @@ public class CandidateUtil {
 		pd.setString(1, jobApplicationID);
 		pd.executeUpdate();
 	}
+	
+	//adding the response of the Applicant into the Interview Table
+	public static void addResponse(String jobApplicationID,String response,Connection con) throws Exception
+	{
+		String sqlString="UPDATE INTERVIEW SET RESPONSE=? where JOBAPPLICATIONID=? ";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, response);
+		pd.setString(2, jobApplicationID);
+		pd.executeUpdate();
+		
+		
+		
+		
+	}
 }
