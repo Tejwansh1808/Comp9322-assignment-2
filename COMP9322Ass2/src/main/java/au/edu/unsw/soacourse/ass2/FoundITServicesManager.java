@@ -717,7 +717,7 @@ public ReviewedCandidateResponseDTO getReviewedApplicants(@PathParam("jobID")Str
 @Produces("application/json")
 @Consumes("application/json")
 @Path("/shortListApplicants")
-public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsRequestDTO request)
+public ShortListApplicantsResponseDTO shortListApplicants(ReviewedCandidateResponseDTO request)
 {
 	ShortListApplicantsResponseDTO response=new ShortListApplicantsResponseDTO();
 	ArrayList<String> returnValues=new ArrayList<String>();
@@ -737,7 +737,7 @@ public ShortListApplicantsResponseDTO shortListApplicants(ShortListApplicantsReq
 		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
 		{
 			try{
-				shortListApplicantsList=request.getShortListApplicantsList();
+				shortListApplicantsList=request.getReviewedApplicants();
 				
 				returnValues=ManagerUtil.shortListApplicants(shortListApplicantsList, con);
 				response.setFlag(returnValues.get(0));
