@@ -602,9 +602,96 @@ public static ArrayList<ArrayList<String>> getInterviewApplicants(String jobID,C
 }
 
 //Add the Selected Applicants 
-public static void addSelectedApplicants() throws Exception
-{
+static String result;
+
+public static ArrayList<String> addSelectedApplicants(ArrayList<ArrayList<String>> applicants,String jobID,Connection con) throws Exception
+{	ArrayList<String> returnValues=new ArrayList<String>();
+	String from,password,To,message,subject;
+	ArrayList<String> temp;
+	for(int i=0;i<applicants.size();i++)
+	{
+		temp=new ArrayList<String>();
+		temp=applicants.get(i);
+		result=temp.get(3);
+		
+		if(result.equalsIgnoreCase("yes"))
+		{
+			String sqlString1="UPDATE INTERVIEW SET RESULT=? where JOBAPPLICATIONID=? ";
+			PreparedStatement pd1=con.prepareStatement(sqlString1);
+			pd1.setString(1, result);
+			pd1.setString(2,temp.get(0));
+			pd1.executeUpdate();
+			System.out.println("Interview Table Updated");
+			
+			String sqlString2="UPDATE JOBAPPLICATION SET STATUS=? where JOBAPPLICATIONID=? and USERID=?";
+			PreparedStatement pd2=con.prepareStatement(sqlString2);
+			pd2.setString(1, "selected");
+			pd2.setString(2,temp.get(0));
+			pd2.setString(3, temp.get(1));
+			pd2.executeUpdate();
+			System.out.println("Job application table updated");
+			
+			String jobName=getJobName(jobID, con);
+			from="founditservices@gmail.com";
+			password="teju1808";
+			To=temp.get(2);
+			message="Hello \n \n I am delited to inform you that you have been select for the job :"+jobName+"\n Please contact the concerned manager.\n"
+					+ "Thank You For Applying with FoundITApp";
+			subject="Interview Results for job :  "+jobName;
+			Mail_Util.sendMail(from, password, To, message, subject);
+			System.out.println("Email Was Sent");
+			
+		}
+		else if(result.equalsIgnoreCase("no"))
+		{
+			String sqlString1="UPDATE INTERVIEW SET RESULT=? where JOBAPPLICATIONID=? ";
+			PreparedStatement pd1=con.prepareStatement(sqlString1);
+			pd1.setString(1, result);
+			pd1.setString(2,temp.get(0));
+			pd1.executeUpdate();
+			System.out.println("Interview Table Updated");
+			
+			String sqlString2="UPDATE JOBAPPLICATION SET STATUS=? where JOBAPPLICATIONID=? and USERID=?";
+			PreparedStatement pd2=con.prepareStatement(sqlString2);
+			pd2.setString(1, "unsuccessful");
+			pd2.setString(2,temp.get(0));
+			pd2.setString(3, temp.get(1));
+			pd2.executeUpdate();
+			System.out.println("Job application table updated");
+			
+			String jobName=getJobName(jobID, con);
+			from="founditservices@gmail.com";
+			password="teju1808";
+			To=temp.get(2);
+			message="Hello \n \n I am Really Sorry to inform you that you have not been selected for the job : "+jobName
+					+ "\n \n Thank You For Applying with FoundITApp";
+			subject="Interview Results for job :  "+jobName;
+			Mail_Util.sendMail(from, password, To, message, subject);
+			System.out.println("Email Was Sent");
+		}
+		else
+		{
+			System.out.println("Wrong Response Value");
+		}
+			
+		
+		
+		
+		
+	}
+	String sqlString="UPDATE JOBINTERNAL_STATUS SET INTERNAL=? where JOB_ID=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1, "end");
+	pd.setString(2, jobID);
+	pd.executeUpdate();
 	
+	System.out.println("The JobInternal_Status table has been updated");
+	
+	returnValues.add(getJobName(jobID, con));
+	returnValues.add("true");
+	returnValues.add("The Selected Applicants were added and informed!!!");
+	
+	return returnValues;
 }
 
 public static void main(String args[]) throws Exception
@@ -612,26 +699,22 @@ public static void main(String args[]) throws Exception
 	ArrayList<String> temp=new ArrayList<String>();
 	ArrayList<ArrayList<String>> temp1=new ArrayList<ArrayList<String>>();
 	
-	temp.add("ja1");
-	temp.add("1001a");
-	temp.add("1221a");
-	temp.add("tejwansh1808@gmail.com");
-	temp.add("yes");
-	temp.add("yes");
-	temp1.add(temp);
-	temp=new ArrayList<String>();
-	/*temp.add("ja2");
-	temp.add("1002a");
+	temp.add("ja3");
 	temp.add("1223a");
 	temp.add("tejwansh1808@gmail.com");
 	temp.add("yes");
+	temp1.add(temp);
+	temp=new ArrayList<String>();
+	temp.add("ja4");
+	temp.add("1221a");
+	temp.add("tejwansh1808@gmail.com");
 	temp.add("no");
-	temp1.add(temp);*/
+	temp1.add(temp);
 	JDBC_Connection con1=new JDBC_Connection();
 	Connection con;
 	con=con1.Connect();
 	
-	shortListApplicants(temp1, "Helll", con);
+	addSelectedApplicants(temp1, "1000a", con);
 	
 }
 

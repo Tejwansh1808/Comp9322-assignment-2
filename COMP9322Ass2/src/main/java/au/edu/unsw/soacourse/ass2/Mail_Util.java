@@ -40,6 +40,8 @@ public class Mail_Util {
 			transport.sendMessage(msg, msg.getAllRecipients());
 			transport.close();
 		
+			
+		
 
 	}
 	
