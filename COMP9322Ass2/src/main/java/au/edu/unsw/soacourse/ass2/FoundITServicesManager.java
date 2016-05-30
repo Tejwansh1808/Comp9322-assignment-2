@@ -399,7 +399,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	//Get the Job Applicants for a particular job
  	@GET
  	@Produces("application/json")
- 	@Path("applicants/{jobID}")
+ 	@Path("/applicants/{jobID}")
  	public GetApplicantResponseDTO getApplicants(@PathParam("jobID")String jobID)
  	{	GetApplicantResponseDTO response=new GetApplicantResponseDTO();
  		ArrayList<ArrayList<String>> applicantList=new ArrayList<ArrayList<String>>();
@@ -443,7 +443,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	//To update the Various Job Application Status
  	@PUT
  	@Produces("application/json")
- 	@Path("updateJobApplication/{jobApplicationID}/{status}")
+ 	@Path("/updateJobApplication/{jobApplicationID}/{status}")
  	public Response updateJobApplication(@PathParam("jobApplicationID")String jobApplicationID,@PathParam("status")String update)
  	{
  		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
@@ -531,7 +531,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	
  	@PUT
  	@Produces("application/json")
- 	@Path("updateInternal/{jobID}/{internalValue}")
+ 	@Path("/updateInternal/{jobID}/{internalValue}")
  	public Response updateInternal(@PathParam("jobID")String jobID,@PathParam("internalValue")String internalValue)
  	{
  		securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
@@ -611,7 +611,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
  	@POST
  	@Produces("application/json")
  	@Consumes("application/json")
- 	@Path("assignReviewer")
+ 	@Path("/assignReviewer")
   public AssignReviewerResponseDTO assignReviever(AssignReviewerRequestDTO request)
   {	
  	AssignReviewerResponseDTO response=new AssignReviewerResponseDTO();
@@ -666,7 +666,7 @@ public Response addHiringTeam(HiringTeamAddRequestDTO request)
 //Get the ShortListed Candidates after the Reviewers have reviewed the  job Applications 
 @GET 
 @Produces("application/json")
-@Path("reviewedApplicants/{jobID}")
+@Path("/reviewedApplicants/{jobID}")
 public ReviewedCandidateResponseDTO getReviewedApplicants(@PathParam("jobID")String jobID)
 {	ReviewedCandidateResponseDTO response=new ReviewedCandidateResponseDTO();
 	String jobName="";
@@ -910,5 +910,8 @@ public SelectedApplicantsReponseDTO addSelectedApplicants(SelectedApplicantsRequ
 		response.setStatus(status);
 	return response;
 }
+
+//Get the Final Result(selected Applicants) for a particular job
+
 
 }
