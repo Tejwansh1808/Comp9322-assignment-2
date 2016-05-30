@@ -87,7 +87,10 @@ public class ReviewerUtil {
  {
 	 String sqlString="UPDATE REVIEWER SET RESULT=? where REVIEWERID=? JOBAPPLICATIONID=?";
 	 PreparedStatement pd=con.prepareStatement(sqlString);
-	 
-	 
+	 pd.setString(1,result);
+	 pd.setString(2, reviewerID);
+	 pd.setString(3, jobApplicationID);
+	 pd.executeUpdate();
+	  
  }
 }
