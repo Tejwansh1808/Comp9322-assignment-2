@@ -10,9 +10,10 @@ public class ReviewerUtil {
 
 	//Login the reviewer
 	static boolean login=true;
+	
 	public static boolean loginReviewer(String username,String password,Connection con)throws Exception
 	{
-		String sqlString="Select * from HIRING_TEAM where USERNAME=? and PASSWORD=?";
+		String sqlString="Select * from HIRING_TEAM where EMAIL=? and PASSWORD=?";
 		PreparedStatement pd=con.prepareStatement(sqlString);
 		pd.setString(1, username);
 		pd.setString(2, password);
@@ -24,6 +25,7 @@ public class ReviewerUtil {
 		}
 		else
 		{
+			
 			login=true;
 		}
 		
