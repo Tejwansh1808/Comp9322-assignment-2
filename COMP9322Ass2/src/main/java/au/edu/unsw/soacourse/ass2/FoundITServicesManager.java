@@ -912,6 +912,47 @@ public SelectedApplicantsReponseDTO addSelectedApplicants(SelectedApplicantsRequ
 }
 
 //Get the Final Result(selected Applicants) for a particular job
-
+@GET
+@Produces("application/json")
+@Path("/finalApplicant/{jobID}")
+public GetFinalResultResponseDTO getFinalResult(@PathParam("jobID")String jobID)
+{
+	GetFinalResultResponseDTO response=new GetFinalResultResponseDTO();
+	ArrayList<ArrayList<String>> finalResult=new ArrayList<ArrayList<String>>();
+	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
+	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
+		
+		if(securityKey==null)
+		{
+			securityKey="default";
+		}
+		if(shortKey==null)
+		{
+			shortKey="default";
+		}
+		if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-manager"))
+		{
+			try{
+				finalResult=ManagerUtil.getFinalResult(jobID, con);
+				response.setFinalApplicants(finalResult);
+				
+				status=200;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error Occurred in Manager Services getFinalResult");
+ 				e.printStackTrace();
+ 				status=500;
+			}
+		}
+		else
+		{
+			status=403;
+			System.out.println("Access Denied");
+		}
+	
+	response.setStatus(status);
+	return response;
+}
 
 }

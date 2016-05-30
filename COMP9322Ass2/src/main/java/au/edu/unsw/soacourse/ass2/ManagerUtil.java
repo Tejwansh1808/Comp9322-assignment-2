@@ -718,7 +718,26 @@ public static void main(String args[]) throws Exception
 	
 }
 
-
+//The Selected final applicants for a particular job 
+public static ArrayList<ArrayList<String>> getFinalResult(String jobID,Connection con)throws Exception
+{
+	ArrayList<ArrayList<String>> finalResult=new ArrayList<ArrayList<String>>();
+	String sqlString="Select JOBSEEKER.NAME,JOBSEEKER.EMAIL from JOBSEEKER,JOBAPPLICATION where JOBSEEKER.USERID=JOBAPPLICATION.USERID and JOBAPPLICATION.JOB_ID=? and JOBAPPLICATION.STATUS=?";
+	PreparedStatement pd=con.prepareStatement(sqlString);
+	pd.setString(1,jobID);
+	pd.setString(2,"selected");
+	ResultSet rs=pd.executeQuery();
+	ArrayList<String> temp;
+	while(rs.next())
+	{
+		temp=new ArrayList<String>();
+		temp.add(rs.getString(1));
+		temp.add(rs.getString(2));
+		finalResult.add(temp);
+	}
+	
+	return finalResult;
+}
 
 
 

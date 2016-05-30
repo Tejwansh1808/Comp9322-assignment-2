@@ -18,6 +18,7 @@
         <jaxrs:serviceBeans>
             <bean class="au.edu.unsw.soacourse.ass2.FoundITServicesCandidate"/>
             <bean class="au.edu.unsw.soacourse.ass2.FoundITServicesManager"/>
+            <bean class="au.edu.unsw.soacourse.ass2.FoundITServicesReviewer"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
