@@ -184,6 +184,8 @@ public Response updateReviewerResult(@PathParam("jobApplicationID")String jobApp
 	if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-reviewer"))
 	{
 		try{
+			ReviewerUtil.updateReviewerJobApplication(jobApplicationID, reviewerID, result, con);
+			status=204;
 			
 		}
 		catch(Exception e)

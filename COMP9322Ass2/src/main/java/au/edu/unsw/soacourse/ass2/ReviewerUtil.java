@@ -83,9 +83,9 @@ public class ReviewerUtil {
 	}
 	
 //Update Results of the Reviewer to the Interview Table
- public void updateReviewerJobApplication(String jobApplicationID,String reviewerID,String result,Connection con) throws Exception
+ public static void updateReviewerJobApplication(String jobApplicationID,String reviewerID,String result,Connection con) throws Exception
  {
-	 String sqlString="UPDATE REVIEWER SET RESULT=? where REVIEWERID=? JOBAPPLICATIONID=?";
+	 String sqlString="UPDATE REVIEWER SET RESULT=? where REVIEWERID=? and JOBAPPLICATIONID=?";
 	 PreparedStatement pd=con.prepareStatement(sqlString);
 	 pd.setString(1,result);
 	 pd.setString(2, reviewerID);
