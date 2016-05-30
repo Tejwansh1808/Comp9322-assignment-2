@@ -39,7 +39,7 @@ public class FoundITServicesReviewer {
 public LoginReviewerResponseDTO loginReviewer(LoginReviewerRequestDTO request)
 {	
 	LoginReviewerResponseDTO response=new LoginReviewerResponseDTO();
-	String username,password;
+	String username,password,reviewerID;
 	boolean login;
 	securityKey=headers.getRequestHeaders().getFirst("SecurityKey");
 	shortKey=headers.getRequestHeaders().getFirst("ShortKey");
@@ -54,10 +54,13 @@ public LoginReviewerResponseDTO loginReviewer(LoginReviewerRequestDTO request)
 	if(securityKey.equalsIgnoreCase("i-am-foundit")&& shortKey.equalsIgnoreCase("app-reviewer"))
 	{
 		try{
-			username=request.getUsername();
+			username=request.getEmail();
 			password=request.getPassword();
 			login=ReviewerUtil.loginReviewer(username, password, con);
+			reviewerID=ReviewerUtil.getReviewer(username, password, con);
 			response.setLogin(login);
+			response.setReviewerID(reviewerID);
+			
 			status=201;
 		}
 		catch(Exception e)

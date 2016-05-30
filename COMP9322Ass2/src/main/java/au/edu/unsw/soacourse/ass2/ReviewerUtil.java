@@ -32,6 +32,31 @@ public class ReviewerUtil {
 		return login;
 	}
 	
+	public static String getReviewer(String username,String password,Connection con) throws Exception
+	{	String reviewerID="null";
+		String sqlString="Select * from HIRING_TEAM where EMAIL=? and PASSWORD=?";
+		PreparedStatement pd=con.prepareStatement(sqlString);
+		pd.setString(1, username);
+		pd.setString(2, password);
+		ResultSet rs=pd.executeQuery();
+		
+		if(!rs.isBeforeFirst())
+		{
+			login=false;
+		}
+		else
+		{
+			login=true;
+			ResultSet rs1=pd.executeQuery();
+			while(rs1.next())
+			{
+				reviewerID=rs1.getString(1);
+			}
+		}
+		
+		return reviewerID;
+	}
+	
 	//Get Job Applications list for a reviewer
 	static ArrayList<ArrayList<String>> jobApplications;
 	public static ArrayList<ArrayList<String>> getJobApplications(String reviewerID,Connection con) throws Exception

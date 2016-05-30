@@ -4,6 +4,13 @@ public class LoginReviewerResponseDTO {
 
 	boolean login;
 	int status;
+	String reviewerID;
+	public String getReviewerID() {
+		return reviewerID;
+	}
+	public void setReviewerID(String reviewerID) {
+		this.reviewerID = reviewerID;
+	}
 	public boolean getLogin() {
 		return login;
 	}
