@@ -372,7 +372,7 @@ static ArrayList<ArrayList<String>> reviewedApplicants;
 public static ArrayList<ArrayList<String>> getReviewedApplicants(String jobID,Connection con) throws Exception
 {	
 	String jobApplicationStatus="under review";
-	String sqlString="SELECT JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.USERID,JOBSEEKER.NAME,JOBSEEKER.EMAIL,JOBINTERNAL_STATUS.INTERNAL from JOBAPPLICATION,JOBSEEKER,JOBINTERNAL_STATUS where JOBSEEKER.USERID=JOBAPPLICATION.USERID and JOBINTERNAL_STATUS.JOB_ID=JOBAPPLICATION.JOB_ID and JOBAPPLICATION.JOB_ID=? and JOBAPPLICATION.STATUS=?";
+	String sqlString="SELECT JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.JOB_ID,JOBAPPLICATION.USERID,JOBSEEKER.NAME,JOBSEEKER.EMAIL from JOBAPPLICATION,JOBSEEKER,JOBINTERNAL_STATUS where JOBSEEKER.USERID=JOBAPPLICATION.USERID and JOBINTERNAL_STATUS.JOB_ID=JOBAPPLICATION.JOB_ID and JOBAPPLICATION.JOB_ID=? and JOBAPPLICATION.STATUS=?";
 	PreparedStatement pd=con.prepareStatement(sqlString);
 	pd.setString(1, jobID);
 	pd.setString(2, jobApplicationStatus);
@@ -390,7 +390,7 @@ public static ArrayList<ArrayList<String>> getReviewedApplicants(String jobID,Co
 		temp.add(rs.getString(3));
 		temp.add(rs.getString(4));
 		temp.add(rs.getString(5));
-		temp.add(jobID);
+		
 		
 		String sqlString2="Select RESULT from REVIEWER where JOBAPPLICATIONID=?";
 		PreparedStatement pd2=con.prepareStatement(sqlString2);
@@ -400,7 +400,10 @@ public static ArrayList<ArrayList<String>> getReviewedApplicants(String jobID,Co
 		{
 			temp.add(rs2.getString(1));
 		}	
+		
 		reviewedApplicants.add(temp);
+		
+		
 	}
 	
 	
@@ -449,8 +452,8 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 	for(k=0;k<shortListApplicantsList.size();k++)
 	{
 		temp=shortListApplicantsList.get(k);
-		reviewerResult1=temp.get(4);
-		reviewerResult2=temp.get(5);
+		reviewerResult1=temp.get(5);
+		reviewerResult2=temp.get(6);
 		flag=checkApproval(reviewerResult1, reviewerResult2);
 		jobID=temp.get(1);
 		if(flag==true)
@@ -476,7 +479,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			
 			from="founditservices@gmail.com";
 			password="teju1808";
-			To=temp.get(3);
+			To=temp.get(4);
 			message="Hello, /n You have been Selected for Interview for the job "+jobName+"\n Please Click on the URL \n\n URL :"+URL+"\n Thank You ";
 			subject="Short Listed for Interview for Job: "+jobName;
 			Mail_Util.sendMail(from, password, To, message, subject);
@@ -506,7 +509,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			
 			from="founditservices@gmail.com";
 			password="teju1808";
-			To=temp.get(3);
+			To=temp.get(4);
 			message="Hello, \n We are Sorry to inform you that your job application for job  "+jobName+" has been unsuccessful \n\n Thank You ";
 			subject="Unsuccessful  Job Application for job: "+jobName;
 			Mail_Util.sendMail(from, password, To, message, subject);

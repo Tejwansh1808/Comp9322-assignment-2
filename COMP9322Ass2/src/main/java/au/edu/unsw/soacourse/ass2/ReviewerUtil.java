@@ -81,4 +81,13 @@ public class ReviewerUtil {
 		
 		return JobApplicationDetails;
 	}
+	
+//Update Results of the Reviewer to the Interview Table
+ public void updateReviewerJobApplication(String jobApplicationID,String reviewerID,String result,Connection con) throws Exception
+ {
+	 String sqlString="UPDATE REVIEWER SET RESULT=? where REVIEWERID=? JOBAPPLICATIONID=?";
+	 PreparedStatement pd=con.prepareStatement(sqlString);
+	 
+	 
+ }
 }
