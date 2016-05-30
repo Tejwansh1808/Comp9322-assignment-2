@@ -481,7 +481,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			password="teju1808";
 			To=temp.get(4);
 			message="Hello, /n You have been Selected for Interview for the job \n Please Click on the URL \n\n URL :"+URL+"\n Thank You ";
-			subject="Short Listed for Interview for Job: "+jobName;
+			subject="Short Listed for Interview for Job";
 			Mail_Util.sendMail(from, password, To, message, subject);
 			
 			System.out.println("The Email Was sent!!!");
@@ -511,7 +511,7 @@ public static ArrayList<String> shortListApplicants(ArrayList<ArrayList<String>>
 			password="teju1808";
 			To=temp.get(4);
 			message="Hello, \n We are Sorry to inform you that your job application for job \n has been unsuccessful \n\n Thank You ";
-			subject="Unsuccessful  Job Application for job: "+jobName;
+			subject="Unsuccessful  Job Application for job";
 			Mail_Util.sendMail(from, password, To, message, subject);
 			
 			System.out.println("The Email Was sent!!!");
