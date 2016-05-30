@@ -371,7 +371,7 @@ public static ArrayList<String> assignReviewer(ArrayList<ArrayList<String>> assi
 static ArrayList<ArrayList<String>> reviewedApplicants;
 public static ArrayList<ArrayList<String>> getReviewedApplicants(String jobID,Connection con) throws Exception
 {	
-	String jobApplicationStatus="under review";
+	String jobApplicationStatus="underreview";
 	String sqlString="SELECT JOBAPPLICATION.JOBAPPLICATIONID,JOBAPPLICATION.JOB_ID,JOBAPPLICATION.USERID,JOBSEEKER.NAME,JOBSEEKER.EMAIL from JOBAPPLICATION,JOBSEEKER,JOBINTERNAL_STATUS where JOBSEEKER.USERID=JOBAPPLICATION.USERID and JOBINTERNAL_STATUS.JOB_ID=JOBAPPLICATION.JOB_ID and JOBAPPLICATION.JOB_ID=? and JOBAPPLICATION.STATUS=?";
 	PreparedStatement pd=con.prepareStatement(sqlString);
 	pd.setString(1, jobID);
