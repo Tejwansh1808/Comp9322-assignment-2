@@ -4,7 +4,7 @@ public class BackgroundResponseDTO {
 	
 	boolean flag;
 	int status;
-	public boolean isFlag() {
+	public boolean getFlag() {
 		return flag;
 	}
 	public void setFlag(boolean flag) {
