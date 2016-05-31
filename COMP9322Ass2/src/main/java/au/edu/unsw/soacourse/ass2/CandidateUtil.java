@@ -279,8 +279,7 @@ public class CandidateUtil {
 		pd.setString(2, jobApplicationID);
 		pd.executeUpdate();
 		
-		
-		
-		
 	}
+	
+	
 }
